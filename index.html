@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<!--
+  skyHire - Employee Referrals
+  Radix-Design System (Skypoint amber, Inter). Shell copied from the
+  canonical dashboard-template.html; only the MAIN CONTENT regions differ.
+  Project component extensions live in skyhire.css / components-referral.md.
+-->
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>skyHire - Employee Referrals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./dashboard.css" />
+  <link rel="stylesheet" href="./skyhire.css" />
+</head>
+<body>
+
+<!-- ============ LUCIDE ICON SPRITE (inlined from lucide.dev) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12h.01"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M22 13a18.15 18.15 0 0 1-20 0"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/><path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"/><rect x="3" y="7" width="18" height="4" rx="1"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chevrons-up-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-circle-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></symbol>
+  <symbol id="i-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-trending-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="i-circle-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-sort" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-list-checks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/></symbol>
+  <symbol id="i-user-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></symbol>
+  <symbol id="i-banknote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></symbol>
+  <symbol id="i-badge-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m16 9-5.5 5.5L8 12"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></symbol>
+  <symbol id="i-circle-dot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="12" r="10"/></symbol>
+  <symbol id="i-user-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21a8 8 0 0 1 13.292-6"/><circle cx="10" cy="8" r="5"/><path d="m16 19 2 2 4-4"/></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></symbol>
+  <symbol id="i-panel-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></symbol>
+  <symbol id="i-handshake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-ellipsis" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
+</svg>
+
+<div class="app-shell">
+
+  <!-- ============ ANNOUNCEMENT BANNER ============ -->
+  <div class="app-banner">
+    <svg class="ab-icon" width="16" height="16"><use href="#i-megaphone"/></svg>
+    <span>Q3 referral drive is live. Engineering roles carry a 25% bonus top-up until 30 September.</span>
+    <a class="link" href="#" data-goto="view-rewards" style="margin-left:var(--space-2);">See bonus terms</a>
+    <span class="ab-spacer"></span>
+    <button class="ab-close" aria-label="Dismiss" data-banner-close><svg width="16" height="16"><use href="#i-x"/></svg></button>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="app-header is-dark">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect width="24" height="24" rx="6" fill="var(--accent-9)"/><text x="12" y="16.5" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent-contrast)">S</text></svg>
+      <span>skyHire</span>
+    </div>
+    <div class="search" style="flex:1;max-width:520px;margin:0 var(--space-4);">
+      <span class="search-icon"><svg width="16" height="16"><use href="#i-search"/></svg></span>
+      <input class="input" placeholder="Search openings, referrals..." data-global-search />
+    </div>
+    <div class="header-right">
+      <span class="dropdown" style="min-width:0;"><span class="avatar is-neutral" style="width:20px;height:20px;font-size:10px;">SP</span> Skypoint <span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevrons-up-down"/></svg></span></span>
+      <button class="icon-btn" aria-label="Notifications"><svg width="18" height="18"><use href="#i-bell"/></svg><span class="ic-badge">2</span></button>
+      <span style="position:relative;">
+        <button class="icon-btn" aria-label="Apps" data-apps-toggle><svg width="18" height="18"><use href="#i-grid"/></svg></button>
+        <div class="popover" id="appsPop" hidden style="position:absolute;right:0;top:calc(100% + 8px);z-index:50;">
+          <div class="app-launcher">
+            <a class="app-tile" href="#"><span class="at-ic"><svg width="18" height="18"><use href="#i-briefcase"/></svg></span> skyHire</a>
+            <a class="app-tile" href="#"><span class="at-ic"><svg width="18" height="18"><use href="#i-calendar"/></svg></span> skySchedule</a>
+            <a class="app-tile" href="#"><span class="at-ic"><svg width="18" height="18"><use href="#i-message"/></svg></span> skySupport</a>
+            <a class="app-tile" href="#"><span class="at-ic"><svg width="18" height="18"><use href="#i-file-text"/></svg></span> skyNote</a>
+            <a class="app-tile" href="#"><span class="at-ic"><svg width="18" height="18"><use href="#i-users"/></svg></span> skyPeople</a>
+            <a class="app-tile" href="#"><span class="at-ic"><svg width="18" height="18"><use href="#i-sparkles"/></svg></span> skyAgent</a>
+          </div>
+        </div>
+      </span>
+      <button class="icon-btn" aria-label="Toggle theme" data-theme-toggle><svg width="18" height="18"><use href="#i-moon"/></svg></button>
+      <span class="divider-v"></span>
+      <span style="position:relative;">
+        <button class="profile-btn" aria-expanded="false" data-profile-toggle>
+          <span class="avatar">YP</span>
+          <span class="pb-name">Yuki Park</span>
+          <span class="pb-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span>
+        </button>
+        <div class="popover profile-menu" id="profilePop" hidden style="position:absolute;right:0;top:calc(100% + 8px);z-index:50;">
+          <div class="pm-head">
+            <span class="avatar" style="width:40px;height:40px;font-size:14px;">YP</span>
+            <span class="pm-id">
+              <span class="pm-name">Yuki Park</span>
+              <span class="pm-email">yuki.park@skypoint.com</span>
+              <a class="pm-viewprofile" href="#">View employee profile</a>
+            </span>
+          </div>
+          <hr class="divider" />
+          <a class="pm-item" href="#">Engineering, Bengaluru</a>
+          <a class="pm-item" href="#">Referral preferences <svg width="16" height="16"><use href="#i-settings"/></svg></a>
+          <a class="pm-item" href="#">Referral policy <svg width="16" height="16"><use href="#i-external"/></svg></a>
+          <hr class="divider" />
+          <button class="btn btn-solid" style="justify-content:center;"><svg class="btn-icon"><use href="#i-logout"/></svg> Sign out</button>
+          <div class="pm-version">skyHire 4.2.1 . Employee access</div>
+        </div>
+      </span>
+    </div>
+  </header>
+
+  <!-- ============ SIDEBAR ============ -->
+  <nav class="app-sidebar" aria-label="Primary">
+    <button class="sidebar-toggle" aria-label="Collapse navigation"><svg width="18" height="18"><use href="#i-panel-left"/></svg></button>
+
+    <a class="nav-item is-active" href="#" aria-current="page" data-view="view-overview">
+      <svg class="nav-icon" width="18" height="18"><use href="#i-house"/></svg>
+      <span class="nav-label">Overview</span>
+    </a>
+    <a class="nav-item" href="#" data-view="view-roles">
+      <svg class="nav-icon" width="18" height="18"><use href="#i-briefcase"/></svg>
+      <span class="nav-label">Open Roles</span>
+    </a>
+    <a class="nav-item" href="#" data-view="view-referrals">
+      <svg class="nav-icon" width="18" height="18"><use href="#i-users"/></svg>
+      <span class="nav-label">My Referrals</span>
+    </a>
+    <a class="nav-item" href="#" data-view="view-rewards">
+      <svg class="nav-icon" width="18" height="18"><use href="#i-gift"/></svg>
+      <span class="nav-label">Rewards</span>
+    </a>
+  </nav>
+
+  <!-- ============ CONTENT ============ -->
+  <main class="app-content">
+
+    <!-- ==================== VIEW: OVERVIEW ==================== -->
+    <div class="view" id="view-overview">
+      <div class="breadcrumbs"><span class="current">Overview</span></div>
+
+      <div class="content-body">
+        <header class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4);">
+          <div>
+            <h1>Refer someone you rate</h1>
+            <p>Every opening at Skypoint you can refer for, and live status for everyone you have referred.</p>
+          </div>
+          <button class="btn btn-solid" data-refer-open>
+            <svg class="btn-icon"><use href="#i-user-plus"/></svg> Refer someone
+          </button>
+        </header>
+
+        <div class="stack-5">
+
+          <!-- KPI row -->
+          <div class="kpi-row">
+            <section class="card stat-card">
+              <div class="sc-head"><span class="sc-label">Referrals submitted</span><span class="sc-icon"><svg width="18" height="18"><use href="#i-user-plus"/></svg></span></div>
+              <div class="sc-value">12</div>
+              <div class="sc-delta is-up"><svg width="14" height="14"><use href="#i-trending-up"/></svg> 3 added this quarter</div>
+              <div class="sc-spark"><svg viewBox="0 0 120 40" preserveAspectRatio="none"><polyline fill="none" stroke="var(--accent-9)" stroke-width="2" points="0,32 15,30 30,26 45,27 60,20 75,16 90,14 105,9 120,6"/></svg></div>
+            </section>
+            <section class="card stat-card">
+              <div class="sc-head"><span class="sc-label">Active in pipeline</span><span class="sc-icon"><svg width="18" height="18"><use href="#i-hourglass"/></svg></span></div>
+              <div class="sc-value">5</div>
+              <div class="sc-delta">2 in interviews this week</div>
+              <div class="sc-spark"><svg viewBox="0 0 120 40" preserveAspectRatio="none"><polyline fill="none" stroke="var(--chart-1)" stroke-width="2" points="0,24 15,20 30,26 45,18 60,22 75,14 90,18 105,12 120,15"/></svg></div>
+            </section>
+            <section class="card stat-card">
+              <div class="sc-head"><span class="sc-label">Hired</span><span class="sc-icon"><svg width="18" height="18"><use href="#i-badge-check"/></svg></span></div>
+              <div class="sc-value">3</div>
+              <div class="sc-delta is-up"><svg width="14" height="14"><use href="#i-trending-up"/></svg> 1 joined in August</div>
+              <div class="sc-spark"><svg viewBox="0 0 120 40" preserveAspectRatio="none"><polyline fill="none" stroke="var(--chart-2)" stroke-width="2" points="0,34 15,34 30,30 45,30 60,26 75,26 90,20 105,20 120,12"/></svg></div>
+            </section>
+            <section class="card stat-card">
+              <div class="sc-head"><span class="sc-label">Rewards earned</span><span class="sc-icon"><svg width="18" height="18"><use href="#i-banknote"/></svg></span></div>
+              <div class="sc-value">&#8377;1.6L</div>
+              <div class="sc-delta">&#8377;40,000 pending payout</div>
+              <div class="sc-spark"><svg viewBox="0 0 120 40" preserveAspectRatio="none"><polyline fill="none" stroke="var(--chart-4)" stroke-width="2" points="0,36 15,36 30,28 45,28 60,28 75,18 90,18 105,18 120,10"/></svg></div>
+            </section>
+          </div>
+
+          <!-- Matches + activity -->
+          <div class="split-2">
+            <section class="card">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">Openings that match your network</div>
+                  <div class="panel-sub">Based on the skills and teams of people you have referred before.</div>
+                </div>
+                <button class="btn btn-surface is-sm" data-goto="view-roles">All 8 openings <svg class="btn-icon"><use href="#i-arrow-right"/></svg></button>
+              </div>
+              <div id="matchList"></div>
+            </section>
+
+            <section class="card">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">Latest on your referrals</div>
+                  <div class="panel-sub"><span class="live"><span class="live-dot"></span> Updated 4 minutes ago</span></div>
+                </div>
+              </div>
+              <div class="activity">
+                <div class="ac-item">
+                  <span class="avatar c2" style="width:28px;height:28px;font-size:11px;">PM</span>
+                  <span class="ac-text">
+                    <span class="ac-title"><strong>Priya Menon</strong> moved to Final interview for Senior Data Engineer.</span>
+                    <span class="ac-time">Today, 09:20</span>
+                  </span>
+                </div>
+                <div class="ac-item">
+                  <span class="avatar c1" style="width:28px;height:28px;font-size:11px;">AK</span>
+                  <span class="ac-text">
+                    <span class="ac-title"><strong>Arjun Kale</strong> completed the technical screen for Forward Deploy Engineer.</span>
+                    <span class="ac-time">Yesterday, 16:45</span>
+                  </span>
+                </div>
+                <div class="ac-item">
+                  <span class="avatar c4" style="width:28px;height:28px;font-size:11px;">RS</span>
+                  <span class="ac-text">
+                    <span class="ac-title"><strong>Ritika Shah</strong> accepted the offer for Product Designer. Joining 15 September.</span>
+                    <span class="ac-time">28 August</span>
+                  </span>
+                </div>
+                <div class="ac-item">
+                  <span class="avatar c5" style="width:28px;height:28px;font-size:11px;">NV</span>
+                  <span class="ac-text">
+                    <span class="ac-title"><strong>Nikhil Verma</strong> has not opened the invite yet. A reminder goes out on 3 September.</span>
+                    <span class="ac-time">26 August</span>
+                  </span>
+                </div>
+              </div>
+              <hr class="divider" />
+              <button class="btn btn-surface" style="justify-content:center;" data-goto="view-referrals">Open My Referrals</button>
+            </section>
+          </div>
+
+          <!-- How it works -->
+          <section class="card">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">How a referral works</div>
+                <div class="panel-sub">Four steps, and you can see exactly where your referee is at every stage.</div>
+              </div>
+            </div>
+            <div class="steps">
+              <div class="step">
+                <span class="step-num">1</span>
+                <span class="step-title">Pick an opening</span>
+                <span class="step-desc">Read the description and the eligibility bar before you commit someone's time.</span>
+              </div>
+              <div class="step">
+                <span class="step-num">2</span>
+                <span class="step-title">Share their details</span>
+                <span class="step-desc">Name, email and phone, plus a short note on why they fit. Resume is optional.</span>
+              </div>
+              <div class="step">
+                <span class="step-num">3</span>
+                <span class="step-title">They get an invite</span>
+                <span class="step-desc">skyHire emails them a prefilled application link. Nothing enters the pipeline until they apply.</span>
+              </div>
+              <div class="step">
+                <span class="step-num">4</span>
+                <span class="step-title">You track it live</span>
+                <span class="step-desc">Every stage change shows up in My Referrals, and the bonus is released on joining.</span>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+      <footer class="app-footer">Copyright 2026 <a href="#">Skypoint</a>. All rights reserved.</footer>
+    </div>
+
+    <!-- ==================== VIEW: OPEN ROLES ==================== -->
+    <div class="view" id="view-roles" hidden>
+      <div class="breadcrumbs">
+        <a href="#" data-goto="view-overview">Overview</a>
+        <span class="sep"><svg width="16" height="16"><use href="#i-chevron-right"/></svg></span>
+        <span class="current">Open Roles</span>
+      </div>
+
+      <div class="content-body">
+        <header class="page-header">
+          <h1>Open Roles</h1>
+          <p>Every opening at Skypoint you can refer for, with the full description and the eligibility bar.</p>
+        </header>
+
+        <div class="stack-4">
+          <section class="card" style="padding:0;">
+            <div class="filter-bar">
+              <span class="fb-ic"><svg width="18" height="18"><use href="#i-filter"/></svg></span>
+              <div class="search" style="min-width:240px;">
+                <span class="search-icon"><svg width="16" height="16"><use href="#i-search"/></svg></span>
+                <input class="input" placeholder="Search role or job ID..." id="roleSearch" />
+              </div>
+              <span class="dropdown" tabindex="0" role="button" aria-expanded="false" data-menu="menuDept" data-filter="dept" style="min-width:170px;">
+                <span data-menu-label>All departments</span>
+                <span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span>
+              </span>
+              <span class="dropdown" tabindex="0" role="button" aria-expanded="false" data-menu="menuLoc" data-filter="loc" style="min-width:160px;">
+                <span data-menu-label>All locations</span>
+                <span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span>
+              </span>
+              <span class="dropdown" tabindex="0" role="button" aria-expanded="false" data-menu="menuType" data-filter="type" style="min-width:150px;">
+                <span data-menu-label>All job types</span>
+                <span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span>
+              </span>
+              <span class="spacer"></span>
+              <label class="switch"><input type="checkbox" id="bonusOnly" /><span class="fb-label">Bonus over &#8377;75,000</span></label>
+            </div>
+          </section>
+
+          <div class="row-3">
+            <span class="fb-label" id="roleCount">8 openings</span>
+            <span class="spacer"></span>
+            <div class="row-2" id="roleChips"></div>
+          </div>
+
+          <div class="card-grid" id="roleGrid"></div>
+
+          <section class="card" id="rolesEmpty" hidden>
+            <div class="empty-state">
+              <div class="empty-art"><svg width="40" height="40"><use href="#i-briefcase"/></svg></div>
+              <h2>No openings match those filters</h2>
+              <p>Try widening the department or location, or clear the bonus filter to see all 8 openings.</p>
+              <button class="btn btn-solid" data-clear-filters><svg class="btn-icon"><use href="#i-refresh"/></svg> Clear filters</button>
+            </div>
+          </section>
+        </div>
+      </div>
+      <footer class="app-footer">Copyright 2026 <a href="#">Skypoint</a>. All rights reserved.</footer>
+    </div>
+
+    <!-- ==================== VIEW: ROLE DETAIL (sub-screen of Open Roles) ==================== -->
+    <div class="view" id="view-role" hidden>
+      <div class="breadcrumbs">
+        <a href="#" data-goto="view-overview">Overview</a>
+        <span class="sep"><svg width="16" height="16"><use href="#i-chevron-right"/></svg></span>
+        <a href="#" data-goto="view-roles">Open Roles</a>
+        <span class="sep"><svg width="16" height="16"><use href="#i-chevron-right"/></svg></span>
+        <span class="current" id="roleCrumb">Role</span>
+      </div>
+      <div class="content-body" id="roleDetail"></div>
+      <footer class="app-footer">Copyright 2026 <a href="#">Skypoint</a>. All rights reserved.</footer>
+    </div>
+
+    <!-- ==================== VIEW: MY REFERRALS ==================== -->
+    <div class="view" id="view-referrals" hidden>
+      <div class="breadcrumbs">
+        <a href="#" data-goto="view-overview">Overview</a>
+        <span class="sep"><svg width="16" height="16"><use href="#i-chevron-right"/></svg></span>
+        <span class="current">My Referrals</span>
+      </div>
+
+      <div class="content-body">
+        <header class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4);">
+          <div>
+            <h1>My Referrals</h1>
+            <p>Everyone you have referred and exactly where they are in the hiring process.</p>
+          </div>
+          <button class="btn btn-solid" data-refer-open><svg class="btn-icon"><use href="#i-user-plus"/></svg> Refer someone</button>
+        </header>
+
+        <div class="stack-4">
+          <div class="row-3">
+            <div class="segmented is-brand" id="refTabs">
+              <button class="segmented-item is-active" data-status="all">All <span data-count="all"></span></button>
+              <button class="segmented-item" data-status="active">In progress <span data-count="active"></span></button>
+              <button class="segmented-item" data-status="hired">Hired <span data-count="hired"></span></button>
+              <button class="segmented-item" data-status="closed">Closed <span data-count="closed"></span></button>
+            </div>
+            <span class="spacer"></span>
+            <span class="live"><span class="live-dot"></span> Live status. Last sync 4 minutes ago.</span>
+            <button class="btn btn-surface is-sm" data-sync><svg class="btn-icon"><use href="#i-refresh"/></svg> Sync now</button>
+          </div>
+
+          <div class="table-toolbar">
+            <div class="search" style="min-width:280px;">
+              <span class="search-icon"><svg width="16" height="16"><use href="#i-search"/></svg></span>
+              <input class="input" placeholder="Search by candidate or role..." id="refSearch" />
+            </div>
+            <span class="toolbar-spacer"></span>
+            <button class="btn btn-surface"><svg class="btn-icon"><use href="#i-download"/></svg> Export</button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="is-sortable">Candidate <span class="th-sort"><svg width="14" height="14"><use href="#i-sort"/></svg></span></th>
+                  <th class="is-sortable">Referred for <span class="th-sort"><svg width="14" height="14"><use href="#i-sort"/></svg></span></th>
+                  <th class="is-sortable">Referred on <span class="th-sort"><svg width="14" height="14"><use href="#i-sort"/></svg></span></th>
+                  <th>Stage</th>
+                  <th>Status</th>
+                  <th>Last update</th>
+                  <th class="is-numeric">Bonus</th>
+                  <th style="width:52px;"></th>
+                </tr>
+              </thead>
+              <tbody id="refBody"></tbody>
+            </table>
+          </div>
+
+          <section class="card" id="refEmpty" hidden>
+            <div class="empty-state">
+              <div class="empty-art"><svg width="40" height="40"><use href="#i-users"/></svg></div>
+              <h2>No referrals in this list</h2>
+              <p>Nobody you have referred is in this state right now. Switch tabs to see the rest, or refer someone new.</p>
+              <button class="btn btn-solid" data-refer-open><svg class="btn-icon"><use href="#i-user-plus"/></svg> Refer someone</button>
+            </div>
+          </section>
+
+          <div class="pagination">
+            <span class="page-info" id="refPageInfo">1-9 of 9</span>
+            <span class="page-spacer"></span>
+            <div class="page-controls">
+              <button class="btn btn-surface is-sm is-icon" aria-label="Previous page" disabled><svg width="14" height="14"><use href="#i-chevron-left"/></svg></button>
+              <button class="btn btn-surface is-sm is-icon" aria-label="Next page" disabled><svg width="14" height="14"><use href="#i-chevron-right"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="app-footer">Copyright 2026 <a href="#">Skypoint</a>. All rights reserved.</footer>
+    </div>
+
+    <!-- ==================== VIEW: REWARDS ==================== -->
+    <div class="view" id="view-rewards" hidden>
+      <div class="breadcrumbs">
+        <a href="#" data-goto="view-overview">Overview</a>
+        <span class="sep"><svg width="16" height="16"><use href="#i-chevron-right"/></svg></span>
+        <span class="current">Rewards</span>
+      </div>
+
+      <div class="content-body">
+        <header class="page-header">
+          <h1>Rewards</h1>
+          <p>What your referrals have earned, what is still pending, and how the bonus is paid out.</p>
+        </header>
+
+        <div class="stack-5">
+          <div class="kpi-row">
+            <section class="card metric-card is-green">
+              <div class="mc-top"><span class="mc-label">Paid to date</span><span class="mc-ic"><svg width="18" height="18"><use href="#i-banknote"/></svg></span></div>
+              <div class="mc-value">&#8377;1,60,000</div>
+              <div class="mc-sub">Across 3 hires since January 2026</div>
+            </section>
+            <section class="card metric-card is-blue">
+              <div class="mc-top"><span class="mc-label">Pending payout</span><span class="mc-ic"><svg width="18" height="18"><use href="#i-hourglass"/></svg></span></div>
+              <div class="mc-value">&#8377;40,000</div>
+              <div class="mc-sub">Ritika Shah, second half at 90 days</div>
+            </section>
+            <section class="card metric-card is-purple">
+              <div class="mc-top"><span class="mc-label">In pipeline</span><span class="mc-ic"><svg width="18" height="18"><use href="#i-timer"/></svg></span></div>
+              <div class="mc-value">&#8377;2,35,000</div>
+              <div class="mc-sub">If all 5 active referrals are hired</div>
+            </section>
+            <section class="card metric-card is-blue">
+              <div class="mc-top"><span class="mc-label">Next payout date</span><span class="mc-ic"><svg width="18" height="18"><use href="#i-calendar"/></svg></span></div>
+              <div class="mc-value" style="font-size:var(--fs-6);">30 Sep</div>
+              <div class="mc-sub">Paid with the September salary cycle</div>
+            </section>
+          </div>
+
+          <div class="with-rail">
+            <section class="card">
+              <div class="panel-head">
+                <div>
+                  <div class="panel-title">Bonus history</div>
+                  <div class="panel-sub">Each hire pays in two halves: on joining, and after 90 days.</div>
+                </div>
+              </div>
+              <div class="table-wrap" style="border:0;">
+                <table class="table">
+                  <thead>
+                    <tr><th>Referral</th><th>Role</th><th>Milestone</th><th>Status</th><th class="is-numeric">Amount</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="cell-strong">Ritika Shah</td><td>Product Designer</td><td>On joining, 15 Sep 2026</td><td><span class="badge is-warning">Scheduled</span></td><td class="is-numeric">&#8377;40,000</td></tr>
+                    <tr><td class="cell-strong">Ritika Shah</td><td>Product Designer</td><td>90 days, 14 Dec 2026</td><td><span class="badge is-neutral">Not due</span></td><td class="is-numeric">&#8377;40,000</td></tr>
+                    <tr><td class="cell-strong">Sana Qureshi</td><td>QA Automation Engineer</td><td>90 days, 12 Jun 2026</td><td><span class="badge is-success">Paid</span></td><td class="is-numeric">&#8377;25,000</td></tr>
+                    <tr><td class="cell-strong">Sana Qureshi</td><td>QA Automation Engineer</td><td>On joining, 14 Mar 2026</td><td><span class="badge is-success">Paid</span></td><td class="is-numeric">&#8377;25,000</td></tr>
+                    <tr><td class="cell-strong">Deepak Rao</td><td>Solutions Architect</td><td>90 days, 28 Apr 2026</td><td><span class="badge is-success">Paid</span></td><td class="is-numeric">&#8377;55,000</td></tr>
+                    <tr><td class="cell-strong">Deepak Rao</td><td>Solutions Architect</td><td>On joining, 29 Jan 2026</td><td><span class="badge is-success">Paid</span></td><td class="is-numeric">&#8377;55,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <aside class="stack-4">
+              <section class="card">
+                <div class="panel-head"><div class="panel-title">How the bonus works</div></div>
+                <ul class="bullets is-check">
+                  <li><svg><use href="#i-check"/></svg> Half is released once your referee joins, half after they complete 90 days.</li>
+                  <li><svg><use href="#i-check"/></svg> The amount is set per role and shown on every opening before you refer.</li>
+                  <li><svg><use href="#i-check"/></svg> Payouts land with your regular salary cycle at the end of the month.</li>
+                  <li><svg><use href="#i-check"/></svg> A referral stays credited to you for 12 months from the day you submit it.</li>
+                </ul>
+              </section>
+              <section class="card">
+                <div class="panel-head"><div class="panel-title">Bonus by role level</div></div>
+                <div class="data-list">
+                  <span class="dl-label">Intern</span><span class="dl-value">&#8377;15,000</span>
+                  <span class="dl-label">Associate</span><span class="dl-value">&#8377;50,000</span>
+                  <span class="dl-label">Senior</span><span class="dl-value">&#8377;75,000 to &#8377;1,00,000</span>
+                  <span class="dl-label">Lead and above</span><span class="dl-value">&#8377;1,10,000</span>
+                </div>
+                <hr class="divider" />
+                <div class="callout is-info">
+                  <span class="co-icon"><svg width="18" height="18"><use href="#i-info"/></svg></span>
+                  <span>Engineering roles carry a 25% top-up until 30 September 2026.</span>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </div>
+      </div>
+      <footer class="app-footer">Copyright 2026 <a href="#">Skypoint</a>. All rights reserved.</footer>
+    </div>
+
+  </main>
+</div>
+
+<!-- ============ SHARED DROPDOWN MENU (positioned by JS) ============ -->
+<div class="dropdown-menu" id="floatMenu" hidden style="position:fixed;z-index:1300;"></div>
+
+<!-- ============ REFER DIALOG ============ -->
+<div class="overlay" id="referOverlay" hidden>
+  <div class="dialog is-form" role="dialog" aria-modal="true" aria-labelledby="referTitle">
+
+    <!-- Step 1: candidate details -->
+    <div class="dialog-step" id="referStep1">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-3);">
+        <div>
+          <div class="dialog-title" id="referTitle">Refer a candidate</div>
+          <div class="dialog-body">We email them a prefilled application link. They stay in control of their own application.</div>
+        </div>
+        <button class="btn btn-ghost is-icon" aria-label="Close" data-refer-close><svg width="18" height="18"><use href="#i-x"/></svg></button>
+      </div>
+
+      <hr class="divider" style="margin:0;" />
+
+      <form class="form-scroll" id="referForm" novalidate>
+        <div class="field">
+          <label class="field-label">Opening</label>
+          <span class="dropdown" tabindex="0" role="button" aria-expanded="false" data-menu="menuRole" data-filter="referRole" style="min-width:0;width:100%;">
+            <span data-menu-label>Select an opening</span>
+            <span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span>
+          </span>
+          <span class="field-hint" id="hint-role">Pick the role you are referring them for.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label class="field-label" for="f-name">Full name <span class="req">*</span></label>
+            <input class="input" id="f-name" placeholder="Priya Menon" autocomplete="off" />
+            <span class="field-hint" id="hint-name">As it appears on their resume.</span>
+          </div>
+          <div class="field">
+            <label class="field-label" for="f-email">Email <span class="req">*</span></label>
+            <input class="input" id="f-email" type="email" placeholder="priya.menon@example.com" autocomplete="off" />
+            <span class="field-hint" id="hint-email">The invite goes here.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label class="field-label" for="f-phone">Phone <span class="req">*</span></label>
+            <input class="input" id="f-phone" placeholder="+91 98765 43210" autocomplete="off" />
+            <span class="field-hint" id="hint-phone">Recruiters call only after they apply.</span>
+          </div>
+          <div class="field">
+            <label class="field-label">How do you know them</label>
+            <span class="dropdown" tabindex="0" role="button" aria-expanded="false" data-menu="menuRel" data-filter="rel" style="min-width:0;width:100%;">
+              <span data-menu-label>Former colleague</span>
+              <span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span>
+            </span>
+            <span class="field-hint">Helps the recruiter frame the first call.</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Resume</label>
+          <label class="upload-zone" id="uploadZone">
+            <span class="uz-ic"><svg width="18" height="18"><use href="#i-upload"/></svg></span>
+            <span class="uz-text">
+              <span class="uz-title" id="uzTitle">Attach a resume</span>
+              <span class="uz-sub" id="uzSub">Optional. PDF or DOCX, up to 5 MB. They can upload their own later.</span>
+            </span>
+            <span class="spacer"></span>
+            <span class="btn btn-surface is-sm">Browse</span>
+            <input type="file" id="f-resume" hidden accept=".pdf,.doc,.docx" />
+          </label>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="f-notes">Why are they a good fit</label>
+          <textarea class="textarea" id="f-notes" rows="3" placeholder="Worked with her for three years on the data platform team. She led the migration to streaming ingestion and is strong on Spark."></textarea>
+          <span class="field-hint">A specific note carries far more weight with the hiring manager than a generic one.</span>
+        </div>
+
+        <label class="checkbox" style="align-items:flex-start;">
+          <input type="checkbox" id="f-consent" />
+          <span>I have their permission to share these details with the Skypoint recruiting team.</span>
+        </label>
+        <span class="field-hint is-error" id="hint-consent" hidden>Please confirm you have their permission.</span>
+      </form>
+
+      <div class="dialog-footer">
+        <button class="btn btn-surface" data-refer-close>Cancel</button>
+        <button class="btn btn-solid" id="referSubmit"><svg class="btn-icon"><use href="#i-send"/></svg> Send invite</button>
+      </div>
+    </div>
+
+    <!-- Step 2: confirmation -->
+    <div class="dialog-step" id="referStep2" hidden>
+      <div class="success-panel">
+        <span class="sp-art"><svg width="28" height="28"><use href="#i-circle-check"/></svg></span>
+        <div class="sp-title">Invite sent</div>
+        <div class="sp-sub" id="sp-sub">We emailed the application link to priya.menon@example.com.</div>
+        <div class="next-list">
+          <div class="nl-item"><svg><use href="#i-check"/></svg><span id="nl-1">The invite is valid for 14 days. We send one reminder on day 5.</span></div>
+          <div class="nl-item"><svg><use href="#i-check"/></svg><span>Their application enters the pipeline only once they submit it themselves.</span></div>
+          <div class="nl-item"><svg><use href="#i-check"/></svg><span id="nl-3">Every stage change shows up in My Referrals, and the bonus is credited to you.</span></div>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn btn-surface" id="referAnother"><svg class="btn-icon"><use href="#i-user-plus"/></svg> Refer someone else</button>
+        <button class="btn btn-solid" id="referTrack">Track this referral <svg class="btn-icon"><use href="#i-arrow-right"/></svg></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ REFERRAL DETAIL DRAWER ============ -->
+<div class="overlay" id="drawerOverlay" hidden style="align-items:stretch;justify-content:flex-end;">
+  <aside class="drawer scroll-area" id="refDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle"></aside>
+</div>
+
+<!-- ============ TOASTS ============ -->
+<div class="toast-host" id="toastHost"></div>
+
+<script>
+/* ============================================================
+   skyHire Referrals - prototype data
+   ============================================================ */
+var RS = '₹';
+
+var STAGES = ['Invite sent', 'Applied', 'Screening', 'Interview', 'Offer', 'Hired'];
+
+var JOBS = [
+  {
+    id: 'JOB-4KD82M', title: 'Forward Deploy Engineer', dept: 'Engineering', loc: 'Bengaluru',
+    type: 'Full time', exp: '3 to 6 years', openings: 2, posted: '4 days ago', applicants: 13,
+    manager: 'Rohit Anand', bonus: 75000, bonusTopUp: true, match: true,
+    summary: 'Forward deploy engineers sit with our largest healthcare and public sector customers and turn the Skypoint platform into a working solution for them. You will spend roughly half your week in customer environments and the other half hardening what you built back into the product.',
+    responsibilities: [
+      'Design and ship customer-specific data pipelines on the Skypoint platform.',
+      'Run technical discovery with customer engineering teams and translate it into scope.',
+      'Debug production issues across ingestion, identity resolution and the semantic layer.',
+      'Feed recurring customer patterns back to the core product team as reusable components.'
+    ],
+    eligibility: [
+      '3 to 6 years building production data or backend systems.',
+      'Strong Python and SQL. Comfortable reading someone else’s pipeline code.',
+      'Has worked directly with external customers, not only internal stakeholders.',
+      'Based in or willing to relocate to Bengaluru. Hybrid, three days in office.'
+    ],
+    nice: ['Azure or Databricks experience.', 'Healthcare or regulated-industry background.', 'Has run a customer pilot end to end.'],
+    process: ['Recruiter call, 30 minutes', 'Technical screen, 60 minutes', 'System design, 60 minutes', 'Customer scenario with the hiring manager', 'Values conversation']
+  },
+  {
+    id: 'JOB-7QW31B', title: 'Senior Data Engineer', dept: 'Data Platform', loc: 'Bengaluru',
+    type: 'Full time', exp: '5 to 8 years', openings: 3, posted: '1 week ago', applicants: 28,
+    manager: 'Meera Iyer', bonus: 100000, bonusTopUp: true, match: true,
+    summary: 'You will own the ingestion and transformation layer that every Skypoint product reads from. The team is small, the surface is large, and the work is mostly about making a high-volume system boring and predictable.',
+    responsibilities: [
+      'Own streaming and batch ingestion for customer data at multi-terabyte scale.',
+      'Set the standards for schema evolution, lineage and data quality checks.',
+      'Cut pipeline cost and latency, and keep both visible on a dashboard the team trusts.',
+      'Mentor two to three engineers through design reviews and pairing.'
+    ],
+    eligibility: [
+      '5 to 8 years in data engineering, at least 2 on a platform team.',
+      'Deep Spark or Flink experience in production, not just in a POC.',
+      'Has designed a schema evolution or lineage strategy that outlived them.',
+      'Comfortable being on call for a data platform.'
+    ],
+    nice: ['Databricks or Snowflake at scale.', 'Open-source contributions.', 'Experience with healthcare data standards such as FHIR.'],
+    process: ['Recruiter call, 30 minutes', 'Data modelling exercise, take home', 'Pipeline design deep dive, 75 minutes', 'Hiring manager conversation', 'Final with the VP of Engineering']
+  },
+  {
+    id: 'JOB-QX41DK', title: 'Product Designer', dept: 'Design', loc: 'Remote, India',
+    type: 'Full time', exp: '4 to 7 years', openings: 1, posted: '2 weeks ago', applicants: 41,
+    manager: 'Ananya Bose', bonus: 80000, bonusTopUp: false, match: true,
+    summary: 'Design owns the whole surface of one Skypoint product, from the first wireframe to the shipped screen. You will work directly with engineers, and we expect you to be in the code review as often as in Figma.',
+    responsibilities: [
+      'Own end-to-end design for one product area, from research through shipped UI.',
+      'Extend the Skypoint design system rather than working around it.',
+      'Run usability sessions with real customer teams every sprint.',
+      'Pair with engineers during build so the shipped screen matches the intent.'
+    ],
+    eligibility: [
+      '4 to 7 years designing complex B2B or data-heavy products.',
+      'A portfolio that shows the reasoning, not only the final screens.',
+      'Has worked inside a design system and contributed back to it.',
+      'Fluent with component-based handoff. Front-end familiarity is a plus.'
+    ],
+    nice: ['Has designed for regulated industries.', 'Comfortable prototyping in code.', 'Experience with analytics-heavy interfaces.'],
+    process: ['Recruiter call, 30 minutes', 'Portfolio walkthrough, 60 minutes', 'Design exercise and critique', 'Cross-functional conversation', 'Final with the Head of Design']
+  },
+  {
+    id: 'JOB-KD92LB', title: 'Solutions Architect, Healthcare', dept: 'Solutions', loc: 'Bengaluru',
+    type: 'Full time', exp: '8+ years', openings: 1, posted: '3 days ago', applicants: 9,
+    manager: 'Vikram Desai', bonus: 110000, bonusTopUp: false, match: false,
+    summary: 'The architect on every large healthcare deal. You set the technical shape of the solution before the contract is signed and stay accountable for it through the first production milestone.',
+    responsibilities: [
+      'Lead architecture for healthcare deployments across cloud, security and compliance.',
+      'Run technical evaluations and proofs of concept with prospective customers.',
+      'Define the reference architecture the delivery team builds against.',
+      'Advise product on what the healthcare market actually needs next.'
+    ],
+    eligibility: [
+      '8+ years in solutions architecture or consulting, 3+ in healthcare.',
+      'Hands-on with a major cloud, ideally Azure.',
+      'Understands HIPAA and hospital data flows well enough to defend a design.',
+      'Willing to travel roughly 25% of the time.'
+    ],
+    nice: ['Payer or provider side experience.', 'FHIR or HL7 implementation background.', 'Pre-sales experience.'],
+    process: ['Recruiter call, 30 minutes', 'Architecture review, 75 minutes', 'Customer scenario presentation', 'Executive conversation']
+  },
+  {
+    id: 'JOB-RB77YE', title: 'Customer Success Manager', dept: 'Customer Success', loc: 'Bengaluru',
+    type: 'Full time', exp: '3 to 5 years', openings: 2, posted: '5 days ago', applicants: 22,
+    manager: 'Sneha Kulkarni', bonus: 60000, bonusTopUp: false, match: false,
+    summary: 'You own a portfolio of enterprise accounts from go-live onwards: adoption, renewal and the honest conversations in between.',
+    responsibilities: [
+      'Own adoption, renewal and expansion for 12 to 15 enterprise accounts.',
+      'Run quarterly business reviews with customer executives.',
+      'Be the internal advocate when a customer needs something the product does not do yet.',
+      'Spot churn risk early and drive a plan before it becomes a renewal problem.'
+    ],
+    eligibility: [
+      '3 to 5 years in customer success or account management at a B2B SaaS company.',
+      'Has carried a renewal or expansion number.',
+      'Comfortable holding a technical conversation without an engineer in the room.',
+      'Excellent written communication.'
+    ],
+    nice: ['Data or analytics product background.', 'Healthcare customers.', 'Experience with Gainsight or similar.'],
+    process: ['Recruiter call, 30 minutes', 'Hiring manager conversation', 'Customer scenario role play', 'Final with the VP of Customer Success']
+  },
+  {
+    id: 'JOB-ZP15WQ', title: 'QA Automation Engineer', dept: 'Engineering', loc: 'Hyderabad',
+    type: 'Full time', exp: '2 to 5 years', openings: 2, posted: '1 week ago', applicants: 34,
+    manager: 'Rohit Anand', bonus: 50000, bonusTopUp: true, match: false,
+    summary: 'Build and own the automated test suite that gates every Skypoint release. The suite is the product here, and flaky tests are treated as bugs.',
+    responsibilities: [
+      'Extend the end-to-end suite across web and API surfaces.',
+      'Keep the pipeline green: triage failures within the day, kill flakiness at the root.',
+      'Build test data tooling so engineers can write their own coverage.',
+      'Report release readiness with evidence, not opinion.'
+    ],
+    eligibility: [
+      '2 to 5 years in test automation.',
+      'Strong with Playwright, Cypress or Selenium plus a real programming language.',
+      'Has owned CI pipelines, not only written tests.',
+      'Based in or willing to relocate to Hyderabad.'
+    ],
+    nice: ['Performance testing experience.', 'Contract testing with Pact.', 'Data pipeline testing.'],
+    process: ['Recruiter call, 30 minutes', 'Automation exercise, take home', 'Technical review, 60 minutes', 'Hiring manager conversation']
+  },
+  {
+    id: 'JOB-LM63CV', title: 'AI Research Intern', dept: 'Research', loc: 'Bengaluru',
+    type: 'Internship', exp: '0 to 1 years', openings: 4, posted: '2 days ago', applicants: 67,
+    manager: 'Dr. Kavya Nair', bonus: 15000, bonusTopUp: false, match: false,
+    summary: 'A six-month internship with the applied research team, working on retrieval and evaluation for the skyAgent product line. Interns publish internally and the strongest convert to full time.',
+    responsibilities: [
+      'Run experiments on retrieval quality and agent evaluation.',
+      'Build reproducible benchmarks and write up what you find.',
+      'Pair with the product team to test ideas on real customer workloads.'
+    ],
+    eligibility: [
+      'Final year or recently graduated in CS, ML or a related field.',
+      'Solid Python and at least one deep learning framework.',
+      'Has read papers closely enough to reimplement one.',
+      'Available full time for six months from October 2026.'
+    ],
+    nice: ['A published paper or a strong open-source project.', 'Experience with LLM evaluation.', 'Kaggle or competition record.'],
+    process: ['Screening assignment', 'Technical conversation, 60 minutes', 'Research discussion with the team']
+  },
+  {
+    id: 'JOB-NF08TA', title: 'Enterprise Account Executive', dept: 'Sales', loc: 'Mumbai',
+    type: 'Full time', exp: '6 to 10 years', openings: 2, posted: '6 days ago', applicants: 18,
+    manager: 'Arun Pillai', bonus: 90000, bonusTopUp: false, match: false,
+    summary: 'Own enterprise new business in western India. Long cycles, technical buyers, and a product that needs to be understood rather than pitched.',
+    responsibilities: [
+      'Own the full cycle for enterprise accounts, from first meeting to signature.',
+      'Build and defend a pipeline three times your quota.',
+      'Work with solutions architects to shape technically credible proposals.',
+      'Keep the forecast honest.'
+    ],
+    eligibility: [
+      '6 to 10 years selling enterprise software, 3+ closing deals above one crore.',
+      'Track record of hitting quota in at least two consecutive years.',
+      'Comfortable selling to CIOs and heads of data.',
+      'Based in Mumbai.'
+    ],
+    nice: ['Data platform or analytics background.', 'Healthcare or BFSI relationships.', 'MEDDIC or Command of the Message training.'],
+    process: ['Recruiter call, 30 minutes', 'Hiring manager conversation', 'Deal review presentation', 'Final with the CRO']
+  }
+];
+
+var REFERRALS = [
+  { name: 'Priya Menon', initials: 'PM', color: 'c2', email: 'priya.menon@example.com', phone: '+91 98450 11223',
+    jobId: 'JOB-7QW31B', referredOn: '12 Aug 2026', stage: 3, status: 'active', label: 'Final interview', badge: 'is-info',
+    lastUpdate: 'Today, 09:20', rel: 'Former colleague', recruiter: 'Neha Gupta',
+    note: 'Worked with her for three years on the data platform team. She led the migration to streaming ingestion and is unusually strong on Spark internals.',
+    timeline: [
+      { t: 'Invite sent', m: '12 Aug 2026, 11:04', s: 'done' },
+      { t: 'Application submitted', m: '12 Aug 2026, 18:32', s: 'done' },
+      { t: 'Recruiter screen cleared', m: '18 Aug 2026', s: 'done', n: 'Neha noted a strong match on the streaming ingestion work.' },
+      { t: 'Final interview scheduled', m: 'Today, 09:20', s: 'current', n: 'Panel with Meera Iyer on 4 September, 15:00 IST.' },
+      { t: 'Offer', m: 'Not started', s: 'pending' },
+      { t: 'Hired', m: 'Not started', s: 'pending' }
+    ] },
+  { name: 'Arjun Kale', initials: 'AK', color: 'c1', email: 'arjun.kale@example.com', phone: '+91 99001 44556',
+    jobId: 'JOB-4KD82M', referredOn: '20 Aug 2026', stage: 2, status: 'active', label: 'Screening', badge: 'is-info',
+    lastUpdate: 'Yesterday, 16:45', rel: 'Former colleague', recruiter: 'Neha Gupta',
+    note: 'Ran customer deployments at his last company and is very good in front of a frustrated customer.',
+    timeline: [
+      { t: 'Invite sent', m: '20 Aug 2026, 09:15', s: 'done' },
+      { t: 'Application submitted', m: '21 Aug 2026, 08:02', s: 'done' },
+      { t: 'Technical screen completed', m: 'Yesterday, 16:45', s: 'current', n: 'Awaiting the scorecard. Usually two working days.' },
+      { t: 'Interview', m: 'Not started', s: 'pending' },
+      { t: 'Offer', m: 'Not started', s: 'pending' },
+      { t: 'Hired', m: 'Not started', s: 'pending' }
+    ] },
+  { name: 'Ritika Shah', initials: 'RS', color: 'c4', email: 'ritika.shah@example.com', phone: '+91 90080 77213',
+    jobId: 'JOB-QX41DK', referredOn: '02 Jul 2026', stage: 4, status: 'active', label: 'Offer accepted', badge: 'is-success',
+    lastUpdate: '28 Aug 2026', rel: 'Friend', recruiter: 'Imran Sheikh',
+    note: 'Designed the analytics suite at her current company. Portfolio is all reasoning, very little decoration.',
+    timeline: [
+      { t: 'Invite sent', m: '02 Jul 2026, 14:20', s: 'done' },
+      { t: 'Application submitted', m: '03 Jul 2026, 10:11', s: 'done' },
+      { t: 'Portfolio review cleared', m: '15 Jul 2026', s: 'done' },
+      { t: 'Onsite loop cleared', m: '08 Aug 2026', s: 'done' },
+      { t: 'Offer accepted', m: '28 Aug 2026', s: 'current', n: 'Joining 15 September. First half of your bonus is scheduled for the September cycle.' },
+      { t: 'Joined', m: 'Expected 15 Sep 2026', s: 'pending' }
+    ] },
+  { name: 'Nikhil Verma', initials: 'NV', color: 'c5', email: 'nikhil.verma@example.com', phone: '+91 97411 20934',
+    jobId: 'JOB-ZP15WQ', referredOn: '26 Aug 2026', stage: 0, status: 'active', label: 'Invite sent', badge: 'is-neutral',
+    lastUpdate: '26 Aug 2026', rel: 'Classmate', recruiter: 'Unassigned',
+    note: 'Built the automation suite at his current company from nothing. Wants to move back to Hyderabad.',
+    timeline: [
+      { t: 'Invite sent', m: '26 Aug 2026, 12:40', s: 'current', n: 'Not opened yet. An automatic reminder goes out on 3 September.' },
+      { t: 'Application submitted', m: 'Waiting on the candidate', s: 'pending' },
+      { t: 'Screening', m: 'Not started', s: 'pending' },
+      { t: 'Interview', m: 'Not started', s: 'pending' },
+      { t: 'Offer', m: 'Not started', s: 'pending' },
+      { t: 'Hired', m: 'Not started', s: 'pending' }
+    ] },
+  { name: 'Farah Siddiqui', initials: 'FS', color: 'c3', email: 'farah.s@example.com', phone: '+91 98211 65004',
+    jobId: 'JOB-RB77YE', referredOn: '14 Aug 2026', stage: 1, status: 'active', label: 'Applied', badge: 'is-info',
+    lastUpdate: '22 Aug 2026', rel: 'Community', recruiter: 'Imran Sheikh',
+    note: 'Ran enterprise accounts at a healthcare SaaS company. Very calm on a difficult renewal call.',
+    timeline: [
+      { t: 'Invite sent', m: '14 Aug 2026, 17:05', s: 'done' },
+      { t: 'Application submitted', m: '22 Aug 2026, 21:14', s: 'current', n: 'In the recruiter queue. Typical first response is three working days.' },
+      { t: 'Screening', m: 'Not started', s: 'pending' },
+      { t: 'Interview', m: 'Not started', s: 'pending' },
+      { t: 'Offer', m: 'Not started', s: 'pending' },
+      { t: 'Hired', m: 'Not started', s: 'pending' }
+    ] },
+  { name: 'Deepak Rao', initials: 'DR', color: 'c6', email: 'deepak.rao@example.com', phone: '+91 90350 88712',
+    jobId: 'JOB-KD92LB', referredOn: '05 Dec 2025', stage: 5, status: 'hired', label: 'Hired', badge: 'is-success',
+    lastUpdate: '29 Jan 2026', rel: 'Former colleague', recruiter: 'Neha Gupta',
+    note: 'Led hospital integrations for six years. Knows HL7 better than anyone I have worked with.',
+    timeline: [
+      { t: 'Invite sent', m: '05 Dec 2025', s: 'done' },
+      { t: 'Application submitted', m: '06 Dec 2025', s: 'done' },
+      { t: 'Architecture review cleared', m: '18 Dec 2025', s: 'done' },
+      { t: 'Executive conversation cleared', m: '09 Jan 2026', s: 'done' },
+      { t: 'Offer accepted', m: '16 Jan 2026', s: 'done' },
+      { t: 'Joined Skypoint', m: '29 Jan 2026', s: 'done', n: 'Both halves of the bonus have been paid.' }
+    ] },
+  { name: 'Sana Qureshi', initials: 'SQ', color: 'c8', email: 'sana.q@example.com', phone: '+91 99872 33418',
+    jobId: 'JOB-ZP15WQ', referredOn: '20 Jan 2026', stage: 5, status: 'hired', label: 'Hired', badge: 'is-success',
+    lastUpdate: '14 Mar 2026', rel: 'Former colleague', recruiter: 'Imran Sheikh',
+    note: 'Turned a flaky suite into something the release train could actually depend on.',
+    timeline: [
+      { t: 'Invite sent', m: '20 Jan 2026', s: 'done' },
+      { t: 'Application submitted', m: '20 Jan 2026', s: 'done' },
+      { t: 'Automation exercise cleared', m: '02 Feb 2026', s: 'done' },
+      { t: 'Interviews cleared', m: '18 Feb 2026', s: 'done' },
+      { t: 'Offer accepted', m: '26 Feb 2026', s: 'done' },
+      { t: 'Joined Skypoint', m: '14 Mar 2026', s: 'done', n: 'Both halves of the bonus have been paid.' }
+    ] },
+  { name: 'Karthik Iyer', initials: 'KI', color: 'c7', email: 'karthik.iyer@example.com', phone: '+91 98860 41077',
+    jobId: 'JOB-7QW31B', referredOn: '18 Jun 2026', stage: 2, status: 'closed', label: 'Not selected', badge: 'is-danger',
+    lastUpdate: '10 Jul 2026', rel: 'Friend', recruiter: 'Neha Gupta',
+    note: 'Strong on batch pipelines, wanted to move into streaming.',
+    timeline: [
+      { t: 'Invite sent', m: '18 Jun 2026', s: 'done' },
+      { t: 'Application submitted', m: '19 Jun 2026', s: 'done' },
+      { t: 'Pipeline design deep dive', m: '04 Jul 2026', s: 'done' },
+      { t: 'Not selected', m: '10 Jul 2026', s: 'lost', n: 'The team wanted deeper streaming experience. Neha has kept him warm for the next opening at this level.' }
+    ] },
+  { name: 'Tanvi Joshi', initials: 'TJ', color: 'c5', email: 'tanvi.joshi@example.com', phone: '+91 97690 55240',
+    jobId: 'JOB-QX41DK', referredOn: '30 May 2026', stage: 1, status: 'closed', label: 'Withdrew', badge: 'is-neutral',
+    lastUpdate: '12 Jun 2026', rel: 'Community', recruiter: 'Imran Sheikh',
+    note: 'Very good systems thinker. Timing was wrong for her.',
+    timeline: [
+      { t: 'Invite sent', m: '30 May 2026', s: 'done' },
+      { t: 'Application submitted', m: '31 May 2026', s: 'done' },
+      { t: 'Candidate withdrew', m: '12 Jun 2026', s: 'lost', n: 'She accepted another offer before our portfolio review. Worth trying again in six months.' }
+    ] }
+];
+</script>
+
+<script>
+/* ============================================================
+   skyHire Referrals - behaviour
+   ============================================================ */
+(function () {
+  var $  = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); };
+  var ic  = function (n, size) { var s = size || 16; return '<svg width="' + s + '" height="' + s + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; };
+  var money = function (n) { return RS + n.toLocaleString('en-IN'); };
+  var jobById = function (id) { for (var i = 0; i < JOBS.length; i++) { if (JOBS[i].id === id) return JOBS[i]; } return null; };
+
+  /* ---------------- View switching ---------------- */
+  function showView(id, navId) {
+    $$('.app-content > .view').forEach(function (v) { v.hidden = v.id !== id; });
+    $$('.nav-item').forEach(function (n) {
+      var on = n.getAttribute('data-view') === (navId || id);
+      n.classList.toggle('is-active', on);
+      if (on) { n.setAttribute('aria-current', 'page'); } else { n.removeAttribute('aria-current'); }
+    });
+    $('.app-content').scrollTop = 0;
+  }
+  $$('.nav-item[data-view]').forEach(function (n) {
+    n.addEventListener('click', function (e) { e.preventDefault(); showView(n.getAttribute('data-view')); });
+  });
+  document.addEventListener('click', function (e) {
+    var g = e.target.closest('[data-goto]');
+    if (g) { e.preventDefault(); showView(g.getAttribute('data-goto')); }
+  });
+
+  /* ---------------- Toast ---------------- */
+  function toast(title, body) {
+    var host = $('#toastHost');
+    var el = document.createElement('div');
+    el.className = 'toast';
+    el.setAttribute('role', 'status');
+    el.innerHTML = '<span class="toast-ic">' + ic('circle-check', 20) + '</span><div><div class="toast-title">' + esc(title) + '</div><div class="toast-body">' + esc(body) + '</div></div>';
+    host.appendChild(el);
+    setTimeout(function () { el.remove(); }, 5200);
+  }
+
+  /* ---------------- Shared dropdown menu ---------------- */
+  var MENUS = {
+    menuDept: { items: ['All departments', 'Engineering', 'Data Platform', 'Design', 'Solutions', 'Customer Success', 'Research', 'Sales'] },
+    menuLoc:  { items: ['All locations', 'Bengaluru', 'Hyderabad', 'Mumbai', 'Remote, India'] },
+    menuType: { items: ['All job types', 'Full time', 'Internship'] },
+    menuRel:  { items: ['Former colleague', 'Friend', 'Classmate', 'Community', 'Family'] },
+    menuRole: { items: JOBS.map(function (j) { return j.title + ' · ' + j.loc; }) }
+  };
+  var filters = { dept: 'All departments', loc: 'All locations', type: 'All job types', rel: 'Former colleague', referRole: null };
+  var openTrigger = null;
+
+  function closeMenu() {
+    var m = $('#floatMenu');
+    m.hidden = true;
+    if (openTrigger) { openTrigger.setAttribute('aria-expanded', 'false'); openTrigger = null; }
+  }
+  function openMenu(trigger) {
+    var key = trigger.getAttribute('data-menu');
+    var field = trigger.getAttribute('data-filter');
+    var def = MENUS[key];
+    if (!def) return;
+    var m = $('#floatMenu');
+    var current = trigger.querySelector('[data-menu-label]').textContent.trim();
+    m.innerHTML = def.items.map(function (it) {
+      var sel = it === current;
+      return '<div class="list-item' + (sel ? ' is-selected' : '') + '" data-value="' + esc(it) + '">' +
+             '<span class="list-check">' + (sel ? ic('check') : '') + '</span>' + esc(it) + '</div>';
+    }).join('');
+    var r = trigger.getBoundingClientRect();
+    m.hidden = false;
+    m.style.minWidth = Math.max(r.width, 200) + 'px';
+    m.style.left = Math.min(r.left, window.innerWidth - m.offsetWidth - 12) + 'px';
+    var below = window.innerHeight - r.bottom;
+    if (below < m.offsetHeight + 16) { m.style.top = Math.max(12, r.top - m.offsetHeight - 6) + 'px'; }
+    else { m.style.top = (r.bottom + 6) + 'px'; }
+    trigger.setAttribute('aria-expanded', 'true');
+    openTrigger = trigger;
+
+    $$('.list-item', m).forEach(function (li) {
+      li.addEventListener('click', function () {
+        var val = li.getAttribute('data-value');
+        trigger.querySelector('[data-menu-label]').textContent = val;
+        if (field) { filters[field] = val; }
+        closeMenu();
+        if (field === 'dept' || field === 'loc' || field === 'type') { renderRoles(); }
+        if (field === 'referRole') { $('#hint-role').classList.remove('is-error'); $('#hint-role').textContent = 'Pick the role you are referring them for.'; }
+      });
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-menu]');
+    if (t) { e.stopPropagation(); if (openTrigger === t) { closeMenu(); } else { closeMenu(); openMenu(t); } return; }
+    if (!e.target.closest('#floatMenu')) closeMenu();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeMenu(); closeRefer(); closeDrawer(); $('#appsPop').hidden = true; hideProfile(); }
+    var t = e.target.closest && e.target.closest('[data-menu]');
+    if (t && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openMenu(t); }
+  });
+
+  /* ---------------- Overview: matching roles ---------------- */
+  function renderMatchList() {
+    $('#matchList').innerHTML = JOBS.filter(function (j) { return j.match; }).map(function (j) {
+      return '<div class="role-row">' +
+        '<span class="rr-ic">' + ic('briefcase', 18) + '</span>' +
+        '<span class="rr-text">' +
+          '<span class="rr-title">' + esc(j.title) + '</span>' +
+          '<span class="rr-sub">' + esc(j.dept) + ' &middot; ' + esc(j.loc) + ' &middot; ' + money(j.bonus) + ' bonus</span>' +
+        '</span>' +
+        '<button class="btn btn-surface is-sm" data-open-role="' + j.id + '">Details</button>' +
+        '<button class="btn btn-soft is-sm" data-refer-open data-job="' + j.id + '">' + ic('user-plus') + ' Refer</button>' +
+      '</div>';
+    }).join('');
+  }
+
+  /* ---------------- Open Roles ---------------- */
+  function matchesFilters(j) {
+    var q = ($('#roleSearch').value || '').trim().toLowerCase();
+    if (q && (j.title + ' ' + j.id + ' ' + j.dept).toLowerCase().indexOf(q) === -1) return false;
+    if (filters.dept !== 'All departments' && j.dept !== filters.dept) return false;
+    if (filters.loc !== 'All locations' && j.loc !== filters.loc) return false;
+    if (filters.type !== 'All job types' && j.type !== filters.type) return false;
+    if ($('#bonusOnly').checked && j.bonus <= 75000) return false;
+    return true;
+  }
+  function jobCard(j) {
+    var refCount = REFERRALS.filter(function (r) { return r.jobId === j.id; }).length;
+    return '<section class="card job-card">' +
+      '<div class="jc-head">' +
+        '<div>' +
+          '<button class="jc-title" data-open-role="' + j.id + '">' + esc(j.title) + '</button>' +
+          '<span class="jc-id">' + esc(j.id) + '</span>' +
+        '</div>' +
+        (j.bonusTopUp ? '<span class="badge is-pill">' + ic('sparkles', 14) + ' Bonus top-up</span>' : '') +
+      '</div>' +
+      '<div class="jc-tags">' +
+        '<span class="badge is-neutral">' + esc(j.type) + '</span>' +
+        '<span class="badge is-neutral">' + esc(j.dept) + '</span>' +
+        '<span class="badge is-neutral">' + esc(j.exp) + '</span>' +
+      '</div>' +
+      '<div class="jc-meta">' +
+        '<span class="jc-meta-item">' + ic('map-pin', 14) + ' ' + esc(j.loc) + '</span>' +
+        '<span class="jc-meta-item">' + ic('users', 14) + ' ' + j.openings + ' ' + (j.openings === 1 ? 'opening' : 'openings') + '</span>' +
+        '<span class="jc-meta-item">' + ic('clock', 14) + ' Posted ' + esc(j.posted) + '</span>' +
+        '<span class="jc-meta-item">' + ic('file-text', 14) + ' ' + j.applicants + ' applicants</span>' +
+      '</div>' +
+      '<p class="jc-elig"><strong>Eligibility:</strong> ' + esc(j.eligibility[0]) + ' ' + esc(j.eligibility[1]) + '</p>' +
+      (refCount ? '<span class="badge is-info" style="align-self:flex-start;">' + ic('user-check', 14) + ' You have referred ' + refCount + ' ' + (refCount === 1 ? 'person' : 'people') + ' here</span>' : '') +
+      '<div class="jc-foot">' +
+        '<span class="bonus">' + ic('banknote') + ' ' + money(j.bonus) + ' <span class="bonus-label">referral bonus</span></span>' +
+        '<span class="spacer"></span>' +
+        '<button class="btn btn-ghost is-sm" data-open-role="' + j.id + '">View details</button>' +
+        '<button class="btn btn-soft is-sm" data-refer-open data-job="' + j.id + '">' + ic('user-plus') + ' Refer</button>' +
+      '</div>' +
+    '</section>';
+  }
+  function renderRoles() {
+    var list = JOBS.filter(matchesFilters);
+    $('#roleGrid').innerHTML = list.map(jobCard).join('');
+    $('#roleGrid').hidden = list.length === 0;
+    $('#rolesEmpty').hidden = list.length !== 0;
+    $('#roleCount').textContent = list.length + (list.length === 1 ? ' opening' : ' openings') + (list.length !== JOBS.length ? ' of ' + JOBS.length : '');
+    var chips = [];
+    ['dept', 'loc', 'type'].forEach(function (k) {
+      var v = filters[k];
+      if (v.indexOf('All ') !== 0) chips.push('<span class="tag">' + esc(v) + '<span class="tag-dismiss" data-chip="' + k + '" role="button" aria-label="Remove filter">' + ic('x', 14) + '</span></span>');
+    });
+    if ($('#bonusOnly').checked) chips.push('<span class="tag">Bonus over ' + money(75000) + '<span class="tag-dismiss" data-chip="bonus" role="button" aria-label="Remove filter">' + ic('x', 14) + '</span></span>');
+    $('#roleChips').innerHTML = chips.join('');
+  }
+  function resetFilters() {
+    filters.dept = 'All departments'; filters.loc = 'All locations'; filters.type = 'All job types';
+    $$('[data-filter="dept"] [data-menu-label]')[0].textContent = filters.dept;
+    $$('[data-filter="loc"] [data-menu-label]')[0].textContent = filters.loc;
+    $$('[data-filter="type"] [data-menu-label]')[0].textContent = filters.type;
+    $('#bonusOnly').checked = false;
+    $('#roleSearch').value = '';
+    renderRoles();
+  }
+  $('#roleSearch').addEventListener('input', renderRoles);
+  $('#bonusOnly').addEventListener('change', renderRoles);
+  document.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-chip]');
+    if (!c) return;
+    var k = c.getAttribute('data-chip');
+    if (k === 'bonus') { $('#bonusOnly').checked = false; }
+    else {
+      filters[k] = k === 'dept' ? 'All departments' : k === 'loc' ? 'All locations' : 'All job types';
+      $$('[data-filter="' + k + '"] [data-menu-label]')[0].textContent = filters[k];
+    }
+    renderRoles();
+  });
+  $$('[data-clear-filters]').forEach(function (b) { b.addEventListener('click', resetFilters); });
+
+  /* ---------------- Role detail ---------------- */
+  function renderRoleDetail(id) {
+    var j = jobById(id);
+    if (!j) return;
+    var mine = REFERRALS.filter(function (r) { return r.jobId === j.id; });
+    $('#roleCrumb').textContent = j.title;
+    $('#roleDetail').innerHTML =
+      '<header class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-4);">' +
+        '<div>' +
+          '<h1>' + esc(j.title) + '</h1>' +
+          '<p>' + esc(j.dept) + ' &middot; ' + esc(j.loc) + ' &middot; ' + esc(j.type) + ' &middot; ' + esc(j.id) + '</p>' +
+        '</div>' +
+        '<button class="btn btn-solid btn-lg" data-refer-open data-job="' + j.id + '">' + ic('user-plus') + ' Refer a candidate</button>' +
+      '</header>' +
+      '<div class="with-rail">' +
+        '<div class="stack-4">' +
+          '<section class="card">' +
+            '<div class="panel-head"><div class="panel-title">About the role</div></div>' +
+            '<div class="prose"><p>' + esc(j.summary) + '</p></div>' +
+          '</section>' +
+          '<section class="card">' +
+            '<div class="panel-head"><div class="panel-title">What they will do</div></div>' +
+            '<ul class="bullets">' + j.responsibilities.map(function (r) { return '<li>' + ic('circle-dot') + '<span>' + esc(r) + '</span></li>'; }).join('') + '</ul>' +
+          '</section>' +
+          '<section class="card">' +
+            '<div class="panel-head">' +
+              '<div><div class="panel-title">Eligibility</div>' +
+              '<div class="panel-sub">Check these before you refer. It saves your referee a rejection.</div></div>' +
+            '</div>' +
+            '<ul class="bullets is-check">' + j.eligibility.map(function (r) { return '<li>' + ic('circle-check') + '<span>' + esc(r) + '</span></li>'; }).join('') + '</ul>' +
+            '<hr class="divider" />' +
+            '<div class="section-title">Nice to have</div>' +
+            '<ul class="bullets">' + j.nice.map(function (r) { return '<li>' + ic('star') + '<span>' + esc(r) + '</span></li>'; }).join('') + '</ul>' +
+          '</section>' +
+          '<section class="card">' +
+            '<div class="panel-head"><div><div class="panel-title">Interview process</div><div class="panel-sub">Typically ' + j.process.length + ' stages over two to three weeks.</div></div></div>' +
+            '<div class="timeline">' + j.process.map(function (p, i) {
+              return '<div class="tl-item' + (i === 0 ? ' is-done' : '') + '">' +
+                '<span class="tl-dot">' + (i === 0 ? ic('circle-check', 14) : '<span style="font-size:var(--fs-1);font-weight:var(--weight-medium);">' + (i + 1) + '</span>') + '</span>' +
+                '<span class="tl-body"><span class="tl-title">' + esc(p) + '</span></span>' +
+              '</div>';
+            }).join('') + '</div>' +
+          '</section>' +
+        '</div>' +
+        '<aside class="stack-4">' +
+          '<section class="card">' +
+            '<div class="panel-head"><div class="panel-title">Referral bonus</div></div>' +
+            '<div class="sc-value" style="font-size:var(--fs-7);font-weight:var(--weight-bold);color:var(--success-text);">' + money(j.bonus) + '</div>' +
+            (j.bonusTopUp ? '<div class="badge is-pill" style="align-self:flex-start;margin-top:var(--space-2);">' + ic('sparkles', 14) + ' Includes the Q3 top-up</div>' : '') +
+            '<hr class="divider" />' +
+            '<div class="data-list">' +
+              '<span class="dl-label">On joining</span><span class="dl-value">' + money(j.bonus / 2) + '</span>' +
+              '<span class="dl-label">After 90 days</span><span class="dl-value">' + money(j.bonus / 2) + '</span>' +
+              '<span class="dl-label">Credited for</span><span class="dl-value">12 months from referral</span>' +
+            '</div>' +
+          '</section>' +
+          '<section class="card">' +
+            '<div class="panel-head"><div class="panel-title">Role snapshot</div></div>' +
+            '<div class="data-list">' +
+              '<span class="dl-label">Department</span><span class="dl-value">' + esc(j.dept) + '</span>' +
+              '<span class="dl-label">Location</span><span class="dl-value">' + esc(j.loc) + '</span>' +
+              '<span class="dl-label">Type</span><span class="dl-value">' + esc(j.type) + '</span>' +
+              '<span class="dl-label">Experience</span><span class="dl-value">' + esc(j.exp) + '</span>' +
+              '<span class="dl-label">Openings</span><span class="dl-value">' + j.openings + '</span>' +
+              '<span class="dl-label">Applicants</span><span class="dl-value">' + j.applicants + '</span>' +
+              '<span class="dl-label">Posted</span><span class="dl-value">' + esc(j.posted) + '</span>' +
+              '<span class="dl-label">Hiring manager</span><span class="dl-value">' + esc(j.manager) + '</span>' +
+            '</div>' +
+          '</section>' +
+          (mine.length ?
+          '<section class="card">' +
+            '<div class="panel-head"><div class="panel-title">Your referrals here</div></div>' +
+            '<div class="stack-3">' + mine.map(function (r) {
+              return '<div class="row-3"><span class="avatar ' + r.color + '" style="width:28px;height:28px;font-size:11px;">' + r.initials + '</span>' +
+                '<span class="rr-text"><span class="rr-title">' + esc(r.name) + '</span><span class="rr-sub">' + esc(r.label) + '</span></span>' +
+                '<span class="spacer"></span><span class="badge ' + r.badge + '">' + esc(r.label) + '</span></div>';
+            }).join('') + '</div>' +
+          '</section>' : '') +
+          '<section class="card">' +
+            '<div class="panel-head"><div class="panel-title">Share this opening</div></div>' +
+            '<div class="callout">' + ic('link', 18) + '<span>skypoint.com/careers/' + esc(j.id.toLowerCase()) + '?ref=yukipark</span></div>' +
+            '<div class="row-2" style="margin-top:var(--space-3);">' +
+              '<button class="btn btn-surface" data-copy-link="' + esc(j.id) + '">' + ic('copy') + ' Copy link</button>' +
+              '<button class="btn btn-surface">' + ic('share') + ' Share</button>' +
+            '</div>' +
+          '</section>' +
+        '</aside>' +
+      '</div>';
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-open-role]');
+    if (b) { e.preventDefault(); renderRoleDetail(b.getAttribute('data-open-role')); showView('view-role', 'view-roles'); }
+    var c = e.target.closest('[data-copy-link]');
+    if (c) { toast('Link copied', 'The referral link for ' + c.getAttribute('data-copy-link') + ' is on your clipboard.'); }
+  });
+
+  /* ---------------- My Referrals ---------------- */
+  var refTab = 'all';
+  function pipelineCell(r) {
+    var lost = r.status === 'closed';
+    var steps = '';
+    for (var i = 0; i < 6; i++) {
+      var cls = 'pl-step';
+      if (lost && i === r.stage) cls += ' is-lost';
+      else if (i < r.stage) cls += ' is-done';
+      else if (i === r.stage) cls += (r.status === 'hired' ? ' is-done' : ' is-current');
+      steps += '<span class="' + cls + '"></span>';
+    }
+    return '<span class="pipeline-cell"><span class="pipeline">' + steps + '</span>' +
+           '<span class="pl-label">Stage ' + (r.stage + 1) + ' of 6 &middot; ' + esc(STAGES[r.stage]) + '</span></span>';
+  }
+  function refRow(r, i) {
+    var j = jobById(r.jobId);
+    return '<tr data-ref="' + i + '">' +
+      '<td><span class="cell-person"><span class="avatar ' + r.color + '">' + r.initials + '</span>' +
+        '<span style="display:flex;flex-direction:column;"><span class="cell-strong">' + esc(r.name) + '</span>' +
+        '<span class="cell-sub">' + esc(r.email) + '</span></span></span></td>' +
+      '<td>' + esc(j ? j.title : '') + '</td>' +
+      '<td>' + esc(r.referredOn) + '</td>' +
+      '<td>' + pipelineCell(r) + '</td>' +
+      '<td><span class="badge ' + r.badge + '">' + esc(r.label) + '</span></td>' +
+      '<td>' + esc(r.lastUpdate) + '</td>' +
+      '<td class="is-numeric">' + (j ? money(j.bonus) : '') + '</td>' +
+      '<td><button class="btn btn-ghost is-sm is-icon" aria-label="View referral" data-ref-open="' + i + '">' + ic('eye') + '</button></td>' +
+    '</tr>';
+  }
+  function refMatches(r) {
+    if (refTab !== 'all' && r.status !== refTab) return false;
+    var q = ($('#refSearch').value || '').trim().toLowerCase();
+    if (!q) return true;
+    var j = jobById(r.jobId);
+    return (r.name + ' ' + r.email + ' ' + (j ? j.title : '')).toLowerCase().indexOf(q) !== -1;
+  }
+  function renderReferrals() {
+    var rows = '';
+    var n = 0;
+    REFERRALS.forEach(function (r, i) { if (refMatches(r)) { rows += refRow(r, i); n++; } });
+    $('#refBody').innerHTML = rows;
+    $('#refEmpty').hidden = n !== 0;
+    $('.table-wrap', $('#view-referrals')).hidden = n === 0;
+    $('#refPageInfo').textContent = n ? '1-' + n + ' of ' + n : '0 of 0';
+    var counts = { all: REFERRALS.length, active: 0, hired: 0, closed: 0 };
+    REFERRALS.forEach(function (r) { counts[r.status]++; });
+    $$('#refTabs [data-count]').forEach(function (s) { s.textContent = counts[s.getAttribute('data-count')]; });
+  }
+  $$('#refTabs .segmented-item').forEach(function (b) {
+    b.addEventListener('click', function () {
+      $$('#refTabs .segmented-item').forEach(function (x) { x.classList.remove('is-active'); });
+      b.classList.add('is-active');
+      refTab = b.getAttribute('data-status');
+      renderReferrals();
+    });
+  });
+  $('#refSearch').addEventListener('input', renderReferrals);
+  $$('[data-sync]').forEach(function (b) {
+    b.addEventListener('click', function () { toast('Status refreshed', 'All 9 referrals are up to date with the recruiting pipeline.'); });
+  });
+
+  /* ---------------- Referral drawer ---------------- */
+  function closeDrawer() { $('#drawerOverlay').hidden = true; }
+  function openDrawer(i) {
+    var r = REFERRALS[i];
+    var j = jobById(r.jobId);
+    var stageIcons = { done: 'circle-check', current: 'circle-dot', pending: 'clock', lost: 'x' };
+    $('#refDrawer').innerHTML =
+      '<div class="drawer-head">' +
+        '<div class="row-3">' +
+          '<span class="avatar ' + r.color + '" style="width:44px;height:44px;font-size:15px;">' + r.initials + '</span>' +
+          '<span style="display:flex;flex-direction:column;">' +
+            '<span class="drawer-title" id="drawerTitle">' + esc(r.name) + '</span>' +
+            '<span class="drawer-sub">' + esc(j ? j.title : '') + ' &middot; ' + esc(j ? j.loc : '') + '</span>' +
+          '</span>' +
+        '</div>' +
+        '<button class="btn btn-ghost is-icon" aria-label="Close" data-drawer-close>' + ic('x', 18) + '</button>' +
+      '</div>' +
+
+      '<div class="row-3" style="margin-bottom:var(--space-4);">' +
+        '<span class="badge ' + r.badge + '">' + esc(r.label) + '</span>' +
+        '<span class="live"><span class="live-dot"></span> Updated ' + esc(r.lastUpdate.toLowerCase()) + '</span>' +
+      '</div>' +
+
+      '<div class="summary-strip" style="margin-bottom:var(--space-5);">' +
+        '<div><div class="ss-label">Referred on</div><div class="ss-value">' + esc(r.referredOn) + '</div></div>' +
+        '<div><div class="ss-label">Stage</div><div class="ss-value">' + (r.stage + 1) + ' of 6</div></div>' +
+        '<div><div class="ss-label">Recruiter</div><div class="ss-value">' + esc(r.recruiter) + '</div></div>' +
+        '<div><div class="ss-label">Your bonus</div><div class="ss-value">' + (j ? money(j.bonus) : '') + '</div></div>' +
+      '</div>' +
+
+      '<div class="section-title">Application status</div>' +
+      '<div class="timeline" style="margin-bottom:var(--space-5);">' + r.timeline.map(function (t) {
+        return '<div class="tl-item is-' + t.s + '">' +
+          '<span class="tl-dot">' + ic(stageIcons[t.s], 14) + '</span>' +
+          '<span class="tl-body">' +
+            '<span class="tl-title">' + esc(t.t) + '</span>' +
+            '<span class="tl-meta">' + esc(t.m) + '</span>' +
+            (t.n ? '<span class="tl-note">' + esc(t.n) + '</span>' : '') +
+          '</span>' +
+        '</div>';
+      }).join('') + '</div>' +
+
+      '<div class="section-title">Candidate</div>' +
+      '<div class="data-list" style="margin-bottom:var(--space-5);">' +
+        '<span class="dl-label">Email</span><span class="dl-value">' + esc(r.email) + '</span>' +
+        '<span class="dl-label">Phone</span><span class="dl-value">' + esc(r.phone) + '</span>' +
+        '<span class="dl-label">Relationship</span><span class="dl-value">' + esc(r.rel) + '</span>' +
+      '</div>' +
+
+      '<div class="section-title">Your note to the recruiter</div>' +
+      '<div class="callout" style="margin-bottom:var(--space-5);">' + ic('message', 18) + '<span>' + esc(r.note) + '</span></div>' +
+
+      (r.status === 'active' ?
+        '<div class="callout is-info" style="margin-bottom:var(--space-5);">' + ic('info', 18) +
+        '<span>You see stage changes only. Interview feedback and scorecards stay with the recruiting team.</span></div>' : '') +
+
+      '<div class="row-2">' +
+        (r.status === 'active' ? '<button class="btn btn-solid" data-nudge="' + esc(r.name) + '">' + ic('send') + ' Nudge the recruiter</button>' : '') +
+        '<button class="btn btn-surface">' + ic('mail') + ' Email ' + esc(r.name.split(' ')[0]) + '</button>' +
+        (r.status === 'active' ? '<button class="btn btn-ghost is-danger" data-withdraw="' + esc(r.name) + '">Withdraw referral</button>' : '') +
+      '</div>';
+    $('#drawerOverlay').hidden = false;
+  }
+  document.addEventListener('click', function (e) {
+    var open = e.target.closest('[data-ref-open]');
+    if (open) { openDrawer(parseInt(open.getAttribute('data-ref-open'), 10)); return; }
+    var row = e.target.closest('#refBody tr[data-ref]');
+    if (row) { openDrawer(parseInt(row.getAttribute('data-ref'), 10)); return; }
+    if (e.target.closest('[data-drawer-close]')) { closeDrawer(); return; }
+    if (e.target.id === 'drawerOverlay') { closeDrawer(); return; }
+    var nudge = e.target.closest('[data-nudge]');
+    if (nudge) { toast('Recruiter notified', 'We have asked for an update on ' + nudge.getAttribute('data-nudge') + '.'); closeDrawer(); }
+    var wd = e.target.closest('[data-withdraw]');
+    if (wd) { toast('Referral withdrawn', wd.getAttribute('data-withdraw') + ' has been removed from the pipeline.'); closeDrawer(); }
+  });
+
+  /* ---------------- Refer dialog ---------------- */
+  var referJobId = null;
+  var HINTS = {
+    'f-name':  'As it appears on their resume.',
+    'f-email': 'The invite goes here.',
+    'f-phone': 'Recruiters call only after they apply.'
+  };
+  function setError(id, msg) {
+    var h = $('#hint-' + id.replace('f-', ''));
+    if (!h) return;
+    h.textContent = msg;
+    h.classList.add('is-error');
+    $('#' + id).style.boxShadow = 'inset 0 0 0 1px var(--danger-border)';
+  }
+  function clearError(id) {
+    var h = $('#hint-' + id.replace('f-', ''));
+    if (!h) return;
+    h.textContent = HINTS[id] || '';
+    h.classList.remove('is-error');
+    $('#' + id).style.boxShadow = '';
+  }
+  function closeRefer() { $('#referOverlay').hidden = true; }
+  function openRefer(jobId) {
+    referJobId = jobId || null;
+    $('#referForm').reset();
+    ['f-name', 'f-email', 'f-phone'].forEach(clearError);
+    $('#hint-consent').hidden = true;
+    $('#uzTitle').textContent = 'Attach a resume';
+    $('#uzSub').textContent = 'Optional. PDF or DOCX, up to 5 MB. They can upload their own later.';
+    var label = $('[data-filter="referRole"] [data-menu-label]');
+    var j = jobId ? jobById(jobId) : null;
+    label.textContent = j ? j.title + ' · ' + j.loc : 'Select an opening';
+    filters.referRole = j ? label.textContent : null;
+    $('#hint-role').classList.remove('is-error');
+    $('#hint-role').textContent = j ? 'Referral bonus for this role is ' + money(j.bonus) + ', paid in two halves.' : 'Pick the role you are referring them for.';
+    $('#referStep1').hidden = false;
+    $('#referStep2').hidden = true;
+    $('#referOverlay').hidden = false;
+    setTimeout(function () { $('#f-name').focus(); }, 40);
+  }
+  document.addEventListener('click', function (e) {
+    var o = e.target.closest('[data-refer-open]');
+    if (o) { e.preventDefault(); openRefer(o.getAttribute('data-job')); return; }
+    if (e.target.closest('[data-refer-close]')) { closeRefer(); return; }
+    if (e.target.id === 'referOverlay') { closeRefer(); }
+  });
+  ['f-name', 'f-email', 'f-phone'].forEach(function (id) {
+    $('#' + id).addEventListener('input', function () { clearError(id); });
+  });
+  $('#f-resume').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    if (!f) return;
+    $('#uzTitle').textContent = f.name;
+    $('#uzSub').textContent = Math.max(1, Math.round(f.size / 1024)) + ' KB attached. Click to replace.';
+  });
+  $('#f-consent').addEventListener('change', function () { if (this.checked) $('#hint-consent').hidden = true; });
+
+  $('#referSubmit').addEventListener('click', function () {
+    var name = $('#f-name').value.trim();
+    var email = $('#f-email').value.trim();
+    var phone = $('#f-phone').value.trim();
+    var ok = true;
+
+    if (!filters.referRole) { $('#hint-role').textContent = 'Choose which opening you are referring them for.'; $('#hint-role').classList.add('is-error'); ok = false; }
+    if (!name) { setError('f-name', 'Enter their full name.'); ok = false; }
+    if (!email) { setError('f-email', 'Enter their email. The invite goes here.'); ok = false; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { setError('f-email', 'That does not look like a valid email address.'); ok = false; }
+    if (!phone) { setError('f-phone', 'Enter a phone number.'); ok = false; }
+    else if (phone.replace(/\D/g, '').length < 10) { setError('f-phone', 'Enter at least 10 digits.'); ok = false; }
+    if (!$('#f-consent').checked) { $('#hint-consent').hidden = false; ok = false; }
+
+    if (!ok) { $('.form-scroll').scrollTop = 0; return; }
+
+    var job = referJobId ? jobById(referJobId) : JOBS.filter(function (x) { return (x.title + ' · ' + x.loc) === filters.referRole; })[0];
+    var parts = name.split(' ');
+    var initials = (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+    REFERRALS.unshift({
+      name: name, initials: initials, color: 'c' + (1 + (name.length % 8)), email: email, phone: phone,
+      jobId: job ? job.id : JOBS[0].id, referredOn: '1 Sep 2026', stage: 0, status: 'active',
+      label: 'Invite sent', badge: 'is-neutral', lastUpdate: 'Just now', rel: filters.rel, recruiter: 'Unassigned',
+      note: $('#f-notes').value.trim() || 'No note added.',
+      timeline: [
+        { t: 'Invite sent', m: '1 Sep 2026, just now', s: 'current', n: 'Sent to ' + email + '. Valid for 14 days, with one reminder on day 5.' },
+        { t: 'Application submitted', m: 'Waiting on the candidate', s: 'pending' },
+        { t: 'Screening', m: 'Not started', s: 'pending' },
+        { t: 'Interview', m: 'Not started', s: 'pending' },
+        { t: 'Offer', m: 'Not started', s: 'pending' },
+        { t: 'Hired', m: 'Not started', s: 'pending' }
+      ]
+    });
+
+    $('#sp-sub').textContent = 'We emailed the application link to ' + email + '.';
+    $('#nl-1').textContent = 'The invite is valid for 14 days. ' + name.split(' ')[0] + ' gets one reminder on day 5.';
+    if (job) $('#nl-3').textContent = 'Every stage change shows up in My Referrals, and your ' + money(job.bonus) + ' bonus is credited on joining.';
+    $('#referStep1').hidden = true;
+    $('#referStep2').hidden = false;
+
+    renderReferrals();
+    renderRoles();
+    if (!$('#view-role').hidden && referJobId) renderRoleDetail(referJobId);
+    toast('Invite sent to ' + name.split(' ')[0], 'Track the application under My Referrals.');
+  });
+  $('#referAnother').addEventListener('click', function () { openRefer(referJobId); });
+  $('#referTrack').addEventListener('click', function () {
+    closeRefer();
+    refTab = 'all';
+    $$('#refTabs .segmented-item').forEach(function (x) { x.classList.toggle('is-active', x.getAttribute('data-status') === 'all'); });
+    $('#refSearch').value = '';
+    renderReferrals();
+    showView('view-referrals');
+  });
+
+  /* ---------------- Shell chrome ---------------- */
+  var tt = $('[data-theme-toggle]');
+  if (tt) tt.addEventListener('click', function () {
+    var h = document.documentElement;
+    h.setAttribute('data-theme', h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+  var bc = $('[data-banner-close]');
+  if (bc) bc.addEventListener('click', function () { this.closest('.app-banner').hidden = true; });
+
+  function hideProfile() { $('#profilePop').hidden = true; $('[data-profile-toggle]').setAttribute('aria-expanded', 'false'); }
+  $('[data-apps-toggle]').addEventListener('click', function (e) {
+    e.stopPropagation(); hideProfile();
+    $('#appsPop').hidden = !$('#appsPop').hidden;
+  });
+  $('[data-profile-toggle]').addEventListener('click', function (e) {
+    e.stopPropagation();
+    $('#appsPop').hidden = true;
+    var open = $('#profilePop').hidden;
+    $('#profilePop').hidden = !open;
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#appsPop')) $('#appsPop').hidden = true;
+    if (!e.target.closest('#profilePop') && !e.target.closest('[data-profile-toggle]')) hideProfile();
+  });
+  $('[data-global-search]').addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return;
+    var q = this.value.trim();
+    if (!q) return;
+    $('#roleSearch').value = q;
+    renderRoles();
+    showView('view-roles');
+  });
+
+  /* ---------------- Init ---------------- */
+  renderMatchList();
+  renderRoles();
+  renderReferrals();
+})();
+</script>
+</body>
+</html>
