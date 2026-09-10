@@ -1980,12 +1980,23 @@ function onboardingTasks(c) {
   var comp = 0, total = 0;
   (c.docs || []).forEach(function (x) { total++; if (WAITING.indexOf(x.status) === -1) comp++; });
   var o = c.onboarding;
+
+  /* The documents step reads the document store rather than a flag on the
+     case, so it can never contradict the count beside it. It is done once
+     nothing is outstanding with the new hire and every required document is
+     on file. A document sitting with HR for review is not their problem. */
+  var waitingOnThem = (c.docs || []).some(function (x) { return WAITING.indexOf(x.status) > -1; });
+  var missing = REQUIRED.some(function (r) {
+    return !(c.docs || []).some(function (x) { return x.req === r.key; });
+  });
+  var docsState = (!waitingOnThem && !missing) ? 'done' : 'waiting';
+
   return [
     { key: 'offer', label: 'Offer accepted', state: 'done', meta: o.offerOn },
-    { key: 'docs', label: 'Documents submitted', state: o.docsDone ? 'done' : 'waiting', meta: comp + ' of ' + total + ' on file' },
+    { key: 'docs', label: 'Documents submitted', state: docsState, meta: comp + ' of ' + total + ' on file' },
     { key: 'profile', label: 'Personal details confirmed', state: o.profileDone ? 'done' : 'waiting', meta: o.profileDone ? 'Confirmed' : 'Waiting on the new hire' },
     { key: 'policies', label: 'Policies acknowledged', state: o.policiesDone ? 'done' : 'waiting', meta: o.policiesDone ? 'Signed' : '4 policies to read' },
-    { key: 'it', label: 'IT and access provisioned', state: o.itDone ? 'done' : 'missing', meta: o.itDone ? 'Laptop and accounts ready' : 'Starts once documents clear' },
+    { key: 'it', label: 'IT and access provisioned', state: o.itDone ? 'done' : 'missing', meta: o.itDone ? 'Laptop and accounts ready' : (docsState === 'done' ? 'Ready to provision' : 'Starts once documents clear') },
     { key: 'record', label: 'Employee record created', state: o.recordDone ? 'done' : 'missing', meta: o.recordDone ? 'Live in skyPeople' : 'Final step' }
   ];
 }
@@ -3339,15 +3350,24 @@ CANDIDATES.forEach(function (c) { if (!c.changes) c.changes = []; });
      usable on its own. */
   function onboardingTabHTML(c) {
     var o = c.onboarding;
-    var done = o.tasks.filter(function (t) { return t.state === 'done'; }).length;
+    /* A case either stores its task list or the host derives it from the
+       record. Read whichever is there, so this screen works in both. */
+    var tasks = o.tasks || (typeof onboardingTasks === 'function' ? onboardingTasks(c) : []);
+    var done = tasks.filter(function (t) { return t.state === 'done'; }).length;
     return '<div class="with-rail">' +
       '<div class="stack-4">' +
-        panel('Onboarding tasks', done + ' of ' + o.tasks.length + ' complete.',
-          '<div class="checklist">' + o.tasks.map(function (t) {
+        panel('Onboarding tasks', done + ' of ' + tasks.length + ' complete.',
+          '<div class="checklist">' + tasks.map(function (t) {
             var cls = t.state === 'done' ? 'is-done' : (t.state === 'waiting' ? 'is-waiting' : 'is-missing');
-            var icon = t.state === 'done' ? 'circle-check' : (t.state === 'waiting' ? 'hourglass' : 'triangle-alert');
+            var icon = t.state === 'done' ? 'circle-check' : (t.state === 'waiting' ? 'hourglass' : 'clock');
+            /* State is named as well as coloured: an icon hue on its own is not
+               a status a colour-blind reader can act on. */
+            var label = t.state === 'done' ? 'Done' : (t.state === 'waiting' ? 'Waiting on them' : 'Not started');
+            var badge = t.state === 'done' ? 'is-success' : (t.state === 'waiting' ? 'is-info' : 'is-neutral');
             return '<div class="cl-item ' + cls + '"><span class="cl-ic">' + ic(icon, 18) + '</span>' +
-              '<span class="cl-name">' + esc(t.label) + '</span><span class="cl-meta">' + esc(t.meta || '') + '</span></div>';
+              '<span class="cl-name">' + esc(t.label) + '</span>' +
+              '<span class="cl-meta">' + esc(t.meta || '') + '</span>' +
+              '<span class="badge ' + badge + '" style="margin-left:var(--space-3);">' + esc(label) + '</span></div>';
           }).join('') + '</div>') +
       '</div>' +
       '<aside class="stack-4">' +
@@ -3819,7 +3839,11 @@ CANDIDATES.forEach(function (c) { if (!c.changes) c.changes = []; });
     openDoc: openDoc, statusBadge: statusBadge, completion: completion,
     byId: byId, toast: toast, requestFor: openRequest,
     openProfile: function (id, tab, nav) { openCandidate = id; profileTab = tab || 'Documents';
-      renderProfileView(); showView('view-profile', nav || 'view-onboard'); } };
+      var from = nav || 'view-onboard';
+      var crumb = $('#view-profile .breadcrumbs a');
+      if (crumb) { crumb.textContent = from === 'view-onboard' ? 'Onboarding' : 'Applicants';
+        crumb.setAttribute('data-dgoto', from === 'view-onboard' ? 'view-onboard' : 'view-centre'); }
+      renderProfileView(); showView('view-profile', from); } };
   renderAll();
   setLens('panel-folders');
 })();
@@ -4191,9 +4215,12 @@ CANDIDATES.forEach(function (c) { if (!c.changes) c.changes = []; });
   }
 
   /* ---------------- Admin: cases table ---------------- */
-  function personCell(c) {
+  function personCell(c, link) {
+    var name = link
+      ? '<button class="link-name" data-case="' + esc(c.id) + '">' + esc(c.name) + '</button>'
+      : '<span class="cell-strong">' + esc(c.name) + '</span>';
     return '<div class="cell-person"><span class="avatar ' + avaColor(c.id) + '" style="width:28px;height:28px;font-size:11px;">' + initials(c.name) + '</span>' +
-      '<span style="display:flex;flex-direction:column;min-width:0;"><span class="cell-strong">' + esc(c.name) + '</span>' +
+      '<span style="display:flex;flex-direction:column;min-width:0;">' + name +
       '<span class="cell-sub">' + esc(c.id) + '</span></span></div>';
   }
   function renderCases() {
@@ -4202,8 +4229,8 @@ CANDIDATES.forEach(function (c) { if (!c.changes) c.changes = []; });
       var st = taskState(c), pct = Math.round(st.done / st.total * 100);
       var docs = (c.docs || []).filter(function (x) { return WAITING.indexOf(x.status) === -1; }).length;
       var badge = (ONBOARD_STATUS[c.onboarding.status] || { badge: 'is-neutral' }).badge;
-      return '<tr>' +
-        '<td>' + personCell(c) + '</td>' +
+      return '<tr data-caserow="' + c.id + '">' +
+        '<td>' + personCell(c, true) + '</td>' +
         '<td>' + esc(c.role) + '</td>' +
         '<td>' + esc(c.onboarding.startDate) + '</td>' +
         '<td><div class="meter" style="min-width:150px;">' +
@@ -4219,8 +4246,14 @@ CANDIDATES.forEach(function (c) { if (!c.changes) c.changes = []; });
         '<h2>No onboarding in flight</h2><p>Start one from an accepted offer and the new hire gets their task list.</p></div></td></tr>';
     $('#caseCount').textContent = all.length + ' case' + (all.length === 1 ? '' : 's');
     $$('#caseRows [data-case]').forEach(function (b) {
-      b.addEventListener('click', function () {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
         window.PORTAL_admin.openProfile(b.getAttribute('data-case'), 'Onboarding');
+      });
+    });
+    $$('#caseRows [data-caserow]').forEach(function (tr) {
+      tr.addEventListener('click', function () {
+        window.PORTAL_admin.openProfile(tr.getAttribute('data-caserow'), 'Onboarding');
       });
     });
   }

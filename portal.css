@@ -475,3 +475,8 @@
 
 :root[data-theme="dark"] .req-row,
 :root[data-theme="dark"] .change-diff .cd-side { background: var(--gray-3); }
+
+/* ---- Clickable name inside a table cell ---- */
+.table .link-name { background: none; border: 0; padding: 0; text-align: left; font-family: var(--font-base); font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--fg-high); cursor: pointer; }
+.table .link-name:hover { text-decoration: underline; }
+.table tr[data-caserow] { cursor: pointer; }
