@@ -197,6 +197,9 @@
       <svg class="nav-icon" width="18" height="18"><use href="#i-folder"/></svg><span class="nav-label">My Documents</span>
       <span class="nav-count" id="myDocsBadge" hidden></span>
     </a>
+    <a class="nav-item" href="#" data-view="view-myprofile">
+      <svg class="nav-icon" width="18" height="18"><use href="#i-id-card"/></svg><span class="nav-label">My Profile</span>
+    </a>
     <a class="nav-item" href="#" data-view="view-rewards">
       <svg class="nav-icon" width="18" height="18"><use href="#i-gift"/></svg><span class="nav-label">Rewards</span>
     </a>
@@ -219,6 +222,10 @@
     </a>
     <a class="nav-item is-active" href="#" aria-current="page" data-aview="view-centre">
       <svg class="nav-icon" width="18" height="18"><use href="#i-folder"/></svg><span class="nav-label">Document Centre</span>
+    </a>
+    <a class="nav-item" href="#" data-aview="view-onboard">
+      <svg class="nav-icon" width="18" height="18"><use href="#i-user-check"/></svg><span class="nav-label">Onboarding</span>
+      <span class="nav-count" id="apprBadge" hidden></span>
     </a>
     <a class="nav-item" href="#" data-aview="view-other" data-stub="Reports">
       <svg class="nav-icon" width="18" height="18"><use href="#i-reports"/></svg><span class="nav-label">Reports</span>
@@ -653,6 +660,35 @@
     </div>
 
 
+
+    <!-- ==================== VIEW: MY PROFILE (member) ==================== -->
+    <div class="view" id="view-myprofile" hidden>
+      <div class="breadcrumbs">
+        <a href="#" data-goto="view-overview">Overview</a>
+        <span class="sep"><svg width="16" height="16"><use href="#i-chevron-right"/></svg></span>
+        <span class="current">My Profile</span>
+      </div>
+
+      <div class="content-body">
+        <div class="head-row" style="margin-bottom:var(--space-5);">
+          <header class="page-header">
+            <h1>My Profile</h1>
+            <p>What Skypoint holds about you. Anything here changes by asking HR, so there is always a record of who changed what and why.</p>
+          </header>
+          <div class="row-2">
+            <button class="btn btn-solid" id="changeBtn"><svg class="btn-icon"><use href="#i-pencil"/></svg> Request a change</button>
+          </div>
+        </div>
+
+        <div class="stack-5">
+          <section id="onboardTasks"></section>
+          <section id="myChanges"></section>
+          <div id="myProfileBody"></div>
+        </div>
+      </div>
+      <footer class="app-footer">Copyright 2026 <a href="#">Skypoint</a>. All rights reserved.</footer>
+    </div>
+
     <!-- ==================== VIEW: DOCUMENT CENTRE ==================== -->
     <div class="view" id="view-centre">
       <div class="breadcrumbs"><span class="current">Document Centre</span></div>
@@ -817,6 +853,56 @@
       <footer class="app-footer">Copyright 2026 <a href="#">Skypoint</a>. All rights reserved.</footer>
     </div>
 
+
+
+    <!-- ==================== VIEW: ONBOARDING (admin) ==================== -->
+    <div class="view" id="view-onboard" hidden>
+      <div class="breadcrumbs"><span class="current">Onboarding</span></div>
+
+      <div class="content-body">
+        <div class="head-row" style="margin-bottom:var(--space-5);">
+          <header class="page-header">
+            <h1>Onboarding</h1>
+            <p>Start a new hire, watch what they still owe you, and decide on everything they send in.</p>
+          </header>
+          <div class="row-2">
+            <button class="btn btn-solid" id="initiateBtn"><svg class="btn-icon"><use href="#i-user-plus"/></svg> Initiate onboarding</button>
+          </div>
+        </div>
+
+        <div class="stack-5">
+          <div class="tile-row" id="onboardTiles" style="grid-template-columns:repeat(4,1fr);"></div>
+
+          <div>
+            <div class="seg-tabs" id="onboardTabs" style="margin-bottom:var(--space-4);">
+              <button class="seg-tab is-active" data-opanel="panel-cases"><svg width="18" height="18"><use href="#i-user-check"/></svg> Cases</button>
+              <button class="seg-tab" data-opanel="panel-approvals"><svg width="18" height="18"><use href="#i-shield-check"/></svg> Approvals <span class="badge is-warning" id="apprCount" style="margin-left:2px;">0</span></button>
+            </div>
+
+            <section class="tab-panel" id="panel-cases">
+              <div class="table-wrap">
+                <table class="table is-wide">
+                  <thead><tr>
+                    <th>New hire</th><th>Role</th><th>Start date</th><th>Progress</th><th>Status</th><th>Documents</th><th>Buddy</th><th></th>
+                  </tr></thead>
+                  <tbody id="caseRows"></tbody>
+                </table>
+              </div>
+              <div class="pagination"><span class="page-info" id="caseCount"></span><span class="page-spacer"></span></div>
+            </section>
+
+            <section class="tab-panel" id="panel-approvals" hidden>
+              <div class="callout is-info" style="margin-bottom:var(--space-4);">
+                <svg class="co-icon"><use href="#i-info"/></svg>
+                <div id="apprNote">Everything an employee has sent in for a decision: documents submitted against a request, and changes to their own record.</div>
+              </div>
+              <div id="apprList"></div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <footer class="app-footer">Copyright 2026 <a href="#">Skypoint</a>. All rights reserved.</footer>
+    </div>
 
   </main>
 </div>
@@ -1206,6 +1292,181 @@
 
 <!-- Member upload: document-kind menu (positioned by the router) -->
 <div class="dropdown-menu" id="myKindMenu" hidden style="position:fixed;z-index:1400;max-height:320px;overflow-y:auto;"></div>
+
+
+<!-- ============ CHANGE REQUEST DIALOG (member) ============ -->
+<div class="overlay" id="changeOverlay" hidden>
+  <div class="dialog is-form" role="dialog" aria-modal="true" aria-labelledby="chgTitle">
+    <div class="dialog-step" id="changeForm">
+      <div class="row-3">
+        <div style="flex:1;min-width:0;">
+          <div class="dialog-title" id="chgTitle">Request a change</div>
+          <div class="dialog-body">HR checks the proof and either approves it or comes back to you with what is missing.</div>
+        </div>
+        <button class="icon-btn" aria-label="Close" data-change-close><svg width="18" height="18"><use href="#i-x"/></svg></button>
+      </div>
+
+      <div class="form-scroll">
+        <div class="field">
+          <span class="field-label">What are you changing <span class="req">*</span></span>
+          <button class="dropdown" id="chgField" data-hrmenu="field" aria-expanded="false" style="width:100%;"><span data-value>Select a field</span><span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span></button>
+          <span class="field-hint" id="hint-chgField">Pick the field and we will show you what proof is needed.</span>
+        </div>
+
+        <div class="field" id="chgCurrentWrap" hidden>
+          <span class="field-label">On file now</span>
+          <div class="summary-strip"><span class="ss-label">Current</span><span class="ss-value" id="chgCurrent"></span></div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="chgNew">New value <span class="req">*</span></label>
+          <textarea class="textarea" id="chgNew" placeholder="Type the new value exactly as it should appear on your record."></textarea>
+          <span class="field-hint" id="hint-chgNew">Exactly as it should read on your record.</span>
+        </div>
+
+        <div class="field" id="chgProofWrap">
+          <span class="field-label">Proof <span class="req" id="chgProofReq">*</span></span>
+          <div class="upload-zone" id="chgZone" tabindex="0" role="button">
+            <span class="uz-ic"><svg width="18" height="18"><use href="#i-upload"/></svg></span>
+            <span class="uz-text">
+              <span class="uz-title" id="chgFileName">Choose a file or drop it here</span>
+              <span class="uz-sub" id="chgProofHint">Select a field to see what counts as proof.</span>
+            </span>
+          </div>
+          <span class="field-hint" id="hint-chgProof">Nothing uploads in this prototype.</span>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="chgReason">Reason</label>
+          <textarea class="textarea" id="chgReason" placeholder="One line on why this is changing. It saves HR coming back to ask."></textarea>
+        </div>
+      </div>
+
+      <div class="dialog-footer">
+        <button class="btn btn-surface" data-change-close>Cancel</button>
+        <button class="btn btn-solid" id="chgSubmit"><svg class="btn-icon"><use href="#i-send"/></svg> Send to HR</button>
+      </div>
+    </div>
+
+    <div class="dialog-step" id="changeDone" hidden>
+      <div class="success-panel">
+        <span class="sp-art"><svg width="30" height="30"><use href="#i-circle-check"/></svg></span>
+        <div class="sp-title">Sent to HR</div>
+        <div class="sp-sub" id="chgDoneSub"></div>
+        <div class="next-list">
+          <div class="nl-item"><svg><use href="#i-check"/></svg> <span>Your record does not change until HR approves it.</span></div>
+          <div class="nl-item"><svg><use href="#i-check"/></svg> <span>You can see the request and its decision on this page.</span></div>
+          <div class="nl-item"><svg><use href="#i-check"/></svg> <span>If it is rejected you get the reason, and can send a new one.</span></div>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn btn-solid" data-change-close>Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ INITIATE ONBOARDING DIALOG ============ -->
+<div class="overlay" id="initOverlay" hidden>
+  <div class="dialog is-form" role="dialog" aria-modal="true" aria-labelledby="initTitle">
+    <div class="dialog-step" id="initForm">
+      <div class="row-3">
+        <div style="flex:1;min-width:0;">
+          <div class="dialog-title" id="initTitle">Initiate onboarding</div>
+          <div class="dialog-body">The new hire gets a sign-in link and a task list. Their document folder already exists, so nothing is re-keyed.</div>
+        </div>
+        <button class="icon-btn" aria-label="Close" data-init-close><svg width="18" height="18"><use href="#i-x"/></svg></button>
+      </div>
+
+      <div class="form-scroll">
+        <div class="field">
+          <span class="field-label">New hire <span class="req">*</span></span>
+          <button class="dropdown" id="initWho" data-hrmenu="hire" aria-expanded="false" style="width:100%;"><span data-value>Select an accepted candidate</span><span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span></button>
+          <span class="field-hint" id="hint-initWho">Only candidates who have accepted an offer and have no case yet.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label class="field-label" for="initStart">Start date <span class="req">*</span></label>
+            <input class="input" id="initStart" value="29 September 2026" />
+            <span class="field-hint">Drives the due dates on their task list.</span>
+          </div>
+          <div class="field">
+            <span class="field-label">Onboarding buddy</span>
+            <button class="dropdown" id="initBuddy" data-hrmenu="buddy" aria-expanded="false" style="width:100%;"><span data-value>Ananya Bose</span><span class="dropdown-chevron"><svg width="16" height="16"><use href="#i-chevron-down"/></svg></span></button>
+            <span class="field-hint">Their first point of contact.</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Documents to ask for</span>
+          <div class="check-grid" id="initDocs"></div>
+          <span class="field-hint">Pre-ticked from what is still missing on their file.</span>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Also ask them to</span>
+          <div class="check-grid">
+            <label class="checkbox"><input type="checkbox" id="initProfile" checked /> Confirm their personal details</label>
+            <label class="checkbox"><input type="checkbox" id="initPolicies" checked /> Acknowledge the four policies</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="initMessage">Welcome message</label>
+          <textarea class="textarea" id="initMessage">Welcome to Skypoint. Everything you need to do before your first day is on your skyHire sign-in. Reply to this email if anything is hard to get hold of.</textarea>
+        </div>
+      </div>
+
+      <div class="dialog-footer">
+        <button class="btn btn-surface" data-init-close>Cancel</button>
+        <button class="btn btn-solid" id="initSubmit"><svg class="btn-icon"><use href="#i-send"/></svg> Start onboarding</button>
+      </div>
+    </div>
+
+    <div class="dialog-step" id="initDone" hidden>
+      <div class="success-panel">
+        <span class="sp-art"><svg width="30" height="30"><use href="#i-circle-check"/></svg></span>
+        <div class="sp-title">Onboarding started</div>
+        <div class="sp-sub" id="initDoneSub"></div>
+        <div class="next-list">
+          <div class="nl-item"><svg><use href="#i-check"/></svg> <span>They can sign in to skyHire and work through the task list.</span></div>
+          <div class="nl-item"><svg><use href="#i-check"/></svg> <span>Documents they submit arrive in Approvals for you to approve or reject.</span></div>
+          <div class="nl-item"><svg><use href="#i-check"/></svg> <span>The employee record is created once every task clears.</span></div>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn btn-solid" data-init-close>Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ REJECT DIALOG (documents and change requests) ============ -->
+<div class="overlay" id="rejectOverlay" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="rejTitle">
+    <div class="row-3">
+      <div style="flex:1;min-width:0;">
+        <div class="dialog-title" id="rejTitle">Reject</div>
+        <div class="dialog-body" id="rejSub"></div>
+      </div>
+      <button class="icon-btn" aria-label="Close" data-reject-close><svg width="18" height="18"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="field">
+      <label class="field-label" for="rejReason">Why <span class="req">*</span></label>
+      <textarea class="textarea" id="rejReason" placeholder="Say what is wrong and what would fix it. This is shown to the employee, so be specific."></textarea>
+      <span class="field-hint" id="hint-rej">They see this word for word, so write it for them, not for the file.</span>
+    </div>
+    <div class="dialog-footer">
+      <button class="btn btn-surface" data-reject-close>Cancel</button>
+      <button class="btn btn-solid is-danger" id="rejSubmit"><svg class="btn-icon"><use href="#i-circle-x"/></svg> Reject and tell them</button>
+    </div>
+  </div>
+</div>
+
+<!-- HR menus (positioned by the HR module) -->
+<div class="dropdown-menu" id="hrMenu" hidden style="position:fixed;z-index:1400;max-height:320px;overflow-y:auto;"></div>
 
 
 <!-- ============ TOASTS ============ -->
@@ -1697,6 +1958,62 @@ var AUDIT = {
 
 <script>
 /* ============================================================
+   ONBOARDING, EMPLOYEE PROFILES AND CHANGE REQUESTS
+   Hung off the same CANDIDATES records the document store uses,
+   so a person has one record whether they are a candidate, a new
+   hire being onboarded, or an employee changing their address.
+   ============================================================ */
+
+var ONBOARD_STATUS = {
+  'Not started':        { badge: 'is-neutral' },
+  'Invited':            { badge: 'is-info' },
+  'In progress':        { badge: 'is-info' },
+  'Awaiting approval':  { badge: 'is-warning' },
+  'Ready to activate':  { badge: 'is-success' },
+  'Employee created':   { badge: 'is-success' }
+};
+
+/* The tasks a new hire works through. Documents are handled by the document
+   store, so the document task reads its state from there rather than storing
+   a second copy. */
+function onboardingTasks(c) {
+  var comp = 0, total = 0;
+  (c.docs || []).forEach(function (x) { total++; if (WAITING.indexOf(x.status) === -1) comp++; });
+  var o = c.onboarding;
+  return [
+    { key: 'offer', label: 'Offer accepted', state: 'done', meta: o.offerOn },
+    { key: 'docs', label: 'Documents submitted', state: o.docsDone ? 'done' : 'waiting', meta: comp + ' of ' + total + ' on file' },
+    { key: 'profile', label: 'Personal details confirmed', state: o.profileDone ? 'done' : 'waiting', meta: o.profileDone ? 'Confirmed' : 'Waiting on the new hire' },
+    { key: 'policies', label: 'Policies acknowledged', state: o.policiesDone ? 'done' : 'waiting', meta: o.policiesDone ? 'Signed' : '4 policies to read' },
+    { key: 'it', label: 'IT and access provisioned', state: o.itDone ? 'done' : 'missing', meta: o.itDone ? 'Laptop and accounts ready' : 'Starts once documents clear' },
+    { key: 'record', label: 'Employee record created', state: o.recordDone ? 'done' : 'missing', meta: o.recordDone ? 'Live in skyPeople' : 'Final step' }
+  ];
+}
+
+var CHANGE_FIELDS = [
+  { field: 'Current address', proof: 'Proof of address, for example a utility bill or rent agreement', cat: 'Identity' },
+  { field: 'Permanent address', proof: 'Proof of address', cat: 'Identity' },
+  { field: 'Marital status', proof: 'Marriage certificate, if the status is changing to married', cat: 'Other' },
+  { field: 'Mobile', proof: 'No proof needed', cat: 'Other' },
+  { field: 'Alternate number', proof: 'No proof needed', cat: 'Other' },
+  { field: 'Personal email', proof: 'No proof needed', cat: 'Other' },
+  { field: 'Bank account', proof: 'Cancelled cheque or a bank statement header', cat: 'Other' },
+  { field: 'Emergency contact', proof: 'No proof needed', cat: 'Other' }
+];
+
+var CHANGE_STATUS = {
+  'Submitted': { badge: 'is-warning', icon: 'clock' },
+  'Approved':  { badge: 'is-success', icon: 'circle-check' },
+  'Rejected':  { badge: 'is-danger', icon: 'circle-x' }
+};
+
+var CHANGE_SEQ = 4;
+function newChangeId() { CHANGE_SEQ++; return 'CHG-' + String(CHANGE_SEQ).padStart(4, '0'); }
+
+</script>
+
+<script>
+/* ============================================================
    BRIDGE - the signed-in member's own record in the shared store
    ============================================================ */
 /* The signed-in member is a real record in the shared document store, so the
@@ -1762,6 +2079,77 @@ CANDIDATES.unshift({
     }
   });
 })();
+
+/* ---- Employee profile for the signed-in member -------------------------
+   Once onboarding creates the employee record, the candidate row carries a
+   profile. Everything in it is editable only through a change request. */
+(function () {
+  var me = CANDIDATES[0];
+  me.profile = {
+    employeeId: 'SKY-1042',
+    workEmail: 'yuki.park@skypoint.com',
+    personalEmail: 'yukipark.ponnada@example.com',
+    altPhone: '+91 80 4123 9000',
+    dob: '14 March 1993',
+    gender: 'Male',
+    maritalStatus: 'Single',
+    nationality: 'Indian',
+    currentAddress: '402, Brigade Gardenia, JP Nagar 7th Phase, Bengaluru 560078',
+    permanentAddress: '12-3-45, Kanuru, Vijayawada 520007',
+    employmentType: 'Full time',
+    startDate: '1 September 2026',
+    pan: 'ABCDE1234F',
+    aadhaar: 'XXXX XXXX 4417',
+    uan: '101234567890',
+    bank: 'HDFC Bank, account ending 8821',
+    emergencyName: 'Lakshmi Ponnada',
+    emergencyRelation: 'Mother',
+    emergencyPhone: '+91 98490 22110'
+  };
+  me.onboarding = {
+    status: 'In progress',
+    initiatedBy: ADMIN.name,
+    initiatedOn: '25 August 2026',
+    startDate: '1 September 2026',
+    offerOn: '20 August 2026',
+    buddy: 'Ananya Bose',
+    docsDone: false, profileDone: false, policiesDone: false, itDone: false, recordDone: false
+  };
+  me.changes = [
+    { id: 'CHG-0004', field: 'Current address', from: '402, Brigade Gardenia, JP Nagar 7th Phase, Bengaluru 560078',
+      to: '1804, Prestige Falcon City, Kanakapura Road, Bengaluru 560062', reason: 'Moved house on 1 September.',
+      proof: 'Rental_Agreement_Sep2026.pdf', status: 'Submitted', raisedOn: '8 September 2026' },
+    { id: 'CHG-0002', field: 'Alternate number', from: '+91 80 4123 8000', to: '+91 80 4123 9000',
+      reason: 'Old landline disconnected.', proof: null, status: 'Approved', raisedOn: '12 August 2026',
+      decidedBy: ADMIN.name, decidedOn: '13 August 2026' },
+    { id: 'CHG-0001', field: 'Bank account', from: 'HDFC Bank, account ending 8821', to: 'ICICI Bank, account ending 3390',
+      reason: 'Switching salary account.', proof: 'Cheque.jpg', status: 'Rejected', raisedOn: '2 August 2026',
+      decidedBy: ADMIN.name, decidedOn: '4 August 2026',
+      note: 'The cheque image is cropped and the account holder name is not readable. Please send a full cancelled cheque or a bank statement header.' }
+  ];
+})();
+
+/* ---- Onboarding cases for the other hired candidates ------------------- */
+(function () {
+  var cases = {
+    'CAND-000551': { status: 'Ready to activate', startDate: '15 September 2026', offerOn: '20 August 2026',
+                     buddy: 'Arun Pillai', docsDone: true, profileDone: true, policiesDone: true, itDone: true, recordDone: false },
+    'CAND-000610': { status: 'In progress', startDate: '22 September 2026', offerOn: '18 August 2026',
+                     buddy: 'Rohit Anand', docsDone: false, profileDone: true, policiesDone: false, itDone: false, recordDone: false },
+    'CAND-000620': { status: 'Awaiting approval', startDate: '29 September 2026', offerOn: '25 August 2026',
+                     buddy: 'Vikram Desai', docsDone: false, profileDone: true, policiesDone: true, itDone: false, recordDone: false }
+  };
+  CANDIDATES.forEach(function (c) {
+    if (!cases[c.id]) return;
+    var o = cases[c.id];
+    o.initiatedBy = ADMIN.name;
+    o.initiatedOn = '26 August 2026';
+    c.onboarding = o;
+  });
+})();
+
+/* Everyone gets a changes array so the approvals queue can read one shape. */
+CANDIDATES.forEach(function (c) { if (!c.changes) c.changes = []; });
 
 </script>
 
@@ -2470,7 +2858,7 @@ CANDIDATES.unshift({
         showView('view-other', 'view-other');
         $$('.nav-item').forEach(function (x) { x.classList.remove('is-active'); x.removeAttribute('aria-current'); });
         n.classList.add('is-active'); n.setAttribute('aria-current', 'page');
-      } else { showView('view-centre'); }
+      } else { showView(n.getAttribute('data-aview')); }
     });
   });
   document.addEventListener('click', function (e) {
@@ -2583,7 +2971,7 @@ CANDIDATES.unshift({
   function setLens(id) {
     lens = id;
     $$('#lensTabs .seg-tab').forEach(function (x) { x.classList.toggle('is-active', x.getAttribute('data-panel') === id); });
-    $$('.tab-panel').forEach(function (p) { p.hidden = p.id !== id; });
+    $$('#view-centre .tab-panel').forEach(function (p) { p.hidden = p.id !== id; });
     renderTiles();
   }
 
@@ -2920,11 +3308,139 @@ CANDIDATES.unshift({
   }
 
   /* ---------- candidate profile (the second surface on the same records) ---------- */
-  var PROFILE_TABS = ['Overview', 'Resume', 'Interviews', 'Feedback', 'Documents', 'Offer', 'Activity'];
+  /* The tab set grows once a candidate becomes an employee. Onboarding only
+     appears when a record carries a case, so the standalone Document Centre
+     shows the plain candidate set and the portal shows the employee set. */
+  function profileTabs(c) {
+    var t = ['Overview', 'Resume', 'Interviews', 'Feedback', 'Documents', 'Offer'];
+    if (c && c.onboarding) t.push('Onboarding');
+    t.push('Activity');
+    return t;
+  }
+
+  /* Overview holds everything known about the person. Candidate facts always
+     render; the employee sections only exist once c.profile is populated. */
+  function dl(rows) {
+    return '<div class="data-list">' + rows.filter(Boolean).map(function (r) {
+      var flag = r[2] ? ' <span class="badge is-warning">' + ic('clock', 12) + ' Change requested</span>' : '';
+      return '<span class="dl-label">' + esc(r[0]) + '</span><span class="dl-value">' + esc(r[1] || 'Not recorded') + flag + '</span>';
+    }).join('') + '</div>';
+  }
+  function panel(title, sub, body) {
+    return '<section class="card"><div class="panel-head"><div><div class="panel-title">' + esc(title) + '</div>' +
+      (sub ? '<div class="panel-sub">' + esc(sub) + '</div>' : '') + '</div></div>' + body + '</section>';
+  }
+  function pendingOn(c, field) {
+    if (!c.changes) return false;
+    return c.changes.some(function (r) { return r.field === field && r.status === 'Submitted'; });
+  }
+  /* Rendered only when a record carries an onboarding case. The case object is
+     supplied by whatever is hosting this screen, so the Document Centre stays
+     usable on its own. */
+  function onboardingTabHTML(c) {
+    var o = c.onboarding;
+    var done = o.tasks.filter(function (t) { return t.state === 'done'; }).length;
+    return '<div class="with-rail">' +
+      '<div class="stack-4">' +
+        panel('Onboarding tasks', done + ' of ' + o.tasks.length + ' complete.',
+          '<div class="checklist">' + o.tasks.map(function (t) {
+            var cls = t.state === 'done' ? 'is-done' : (t.state === 'waiting' ? 'is-waiting' : 'is-missing');
+            var icon = t.state === 'done' ? 'circle-check' : (t.state === 'waiting' ? 'hourglass' : 'triangle-alert');
+            return '<div class="cl-item ' + cls + '"><span class="cl-ic">' + ic(icon, 18) + '</span>' +
+              '<span class="cl-name">' + esc(t.label) + '</span><span class="cl-meta">' + esc(t.meta || '') + '</span></div>';
+          }).join('') + '</div>') +
+      '</div>' +
+      '<aside class="stack-4">' +
+        panel('Case', null, dl([
+          ['Status', o.status],
+          ['Initiated by', o.initiatedBy],
+          ['Initiated on', o.initiatedOn],
+          ['Start date', o.startDate],
+          ['Buddy', o.buddy]
+        ])) +
+      '</aside></div>';
+  }
+
+  function profileOverviewHTML(c) {
+    var p = c.profile || {};
+    var cards = [];
+
+    cards.push(panel('Application', 'How this person came into skyHire.', dl([
+      ['Candidate ID', c.id],
+      ['Applied to', c.jobs.join(', ')],
+      ['Stage', c.stage],
+      ['Recruiter', c.recruiter],
+      ['Hiring manager', c.manager],
+      ['Location', c.loc],
+      ['Department', c.dept]
+    ])));
+
+    cards.push(panel('Contact', null, dl([
+      ['Work email', p.workEmail || c.email, pendingOn(c, 'Work email')],
+      ['Personal email', p.personalEmail, pendingOn(c, 'Personal email')],
+      ['Mobile', c.phone, pendingOn(c, 'Mobile')],
+      ['Alternate number', p.altPhone, pendingOn(c, 'Alternate number')]
+    ])));
+
+    if (c.profile) {
+      cards.push(panel('Personal details', null, dl([
+        ['Date of birth', p.dob],
+        ['Gender', p.gender],
+        ['Marital status', p.maritalStatus, pendingOn(c, 'Marital status')],
+        ['Nationality', p.nationality]
+      ])));
+
+      cards.push(panel('Address', 'A change here needs proof of address.', dl([
+        ['Current address', p.currentAddress, pendingOn(c, 'Current address')],
+        ['Permanent address', p.permanentAddress, pendingOn(c, 'Permanent address')]
+      ])));
+
+      cards.push(panel('Employment', null, dl([
+        ['Employee ID', p.employeeId],
+        ['Job title', c.role],
+        ['Employment type', p.employmentType],
+        ['Start date', p.startDate],
+        ['Work location', c.loc],
+        ['Reports to', c.manager]
+      ])));
+
+      cards.push(panel('Statutory and payroll', 'Held for compliance. Masked for everyone outside HR Operations.', dl([
+        ['PAN', p.pan],
+        ['Aadhaar', p.aadhaar],
+        ['UAN', p.uan],
+        ['Bank account', p.bank, pendingOn(c, 'Bank account')]
+      ])));
+
+      cards.push(panel('Emergency contact', null, dl([
+        ['Name', p.emergencyName, pendingOn(c, 'Emergency contact')],
+        ['Relationship', p.emergencyRelation],
+        ['Phone', p.emergencyPhone, pendingOn(c, 'Emergency contact')]
+      ])));
+    }
+
+    var note = c.profile
+      ? ''
+      : '<div class="callout is-info" style="margin-bottom:var(--space-4);">' + ic('info', 18).replace('<svg', '<svg class="co-icon"') +
+        '<div>Employee sections appear once this candidate is hired and onboarding creates their employee record.</div></div>';
+
+    var pend = (c.changes || []).filter(function (r) { return r.status === 'Submitted'; });
+    var pendBlock = pend.length
+      ? '<div class="callout is-warning" style="margin-bottom:var(--space-4);">' + ic('circle-alert', 18).replace('<svg', '<svg class="co-icon"') +
+        '<div>' + pend.length + ' change request' + (pend.length === 1 ? '' : 's') + ' waiting on a decision: ' +
+        esc(pend.map(function (r) { return r.field; }).join(', ')) + '.</div></div>'
+      : '';
+
+    return note + pendBlock + '<div class="card-grid">' + cards.join('') + '</div>';
+  }
+
   function renderProfileView() {
     var c = byId(openCandidate); if (!c) return;
     $('#profileCrumb').textContent = c.name;
-    var body = profileTab === 'Documents'
+    var body = profileTab === 'Overview'
+      ? profileOverviewHTML(c)
+      : profileTab === 'Onboarding' && c.onboarding
+      ? onboardingTabHTML(c)
+      : profileTab === 'Documents'
       ? '<div class="callout is-info" style="margin-bottom:var(--space-4);">' + ic('info', 18).replace('<svg', '<svg class="co-icon"') +
           '<div>The same records as <a class="link" href="#" data-open-folder="' + c.id + '">Document Centre . ' + esc(c.name) + '</a>. Upload or verify in either place and both update, because there is only one copy.</div></div>' +
         docTableHTML(c, 'All', 'profile')
@@ -2952,7 +3468,7 @@ CANDIDATES.unshift({
           '</span>' +
         '</div>' +
       '</div>' +
-      '<div class="tabs-scroll" style="margin-bottom:var(--space-4);"><div class="tab-nav">' + PROFILE_TABS.map(function (t) {
+      '<div class="tabs-scroll" style="margin-bottom:var(--space-4);"><div class="tab-nav">' + profileTabs(c).map(function (t) {
         return '<button class="tab-nav-item' + (t === profileTab ? ' is-active' : '') + '" data-ptab="' + esc(t) + '">' + esc(t) +
           (t === 'Documents' ? '<span class="tn-count">' + c.docs.length + '</span>' : '') + '</button>';
       }).join('') + '</div></div>' + body;
@@ -3301,7 +3817,9 @@ CANDIDATES.unshift({
 
   window.PORTAL_admin = { show: showView, render: renderAll, gotoFolder: gotoFolder,
     openDoc: openDoc, statusBadge: statusBadge, completion: completion,
-    byId: byId, toast: toast, requestFor: openRequest };
+    byId: byId, toast: toast, requestFor: openRequest,
+    openProfile: function (id, tab, nav) { openCandidate = id; profileTab = tab || 'Documents';
+      renderProfileView(); showView('view-profile', nav || 'view-onboard'); } };
   renderAll();
   setLens('panel-folders');
 })();
@@ -3538,7 +4056,7 @@ CANDIDATES.unshift({
     });
   }
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-mymenu]');
+    var t = e.target.closest('[data-mymenu="kind"]');
     if (t) { e.stopPropagation(); if (upMenuOpen) { closeKindMenu(); } else { openKindMenu(); } return; }
     if (!e.target.closest('#myKindMenu')) closeKindMenu();
   });
@@ -3607,6 +4125,9 @@ CANDIDATES.unshift({
   $$('.nav-item[data-view="view-mydocs"]').forEach(function (n) {
     n.addEventListener('click', function () { renderMyDocs(); });
   });
+  $$('.nav-item[data-view="view-myprofile"]').forEach(function (n) {
+    n.addEventListener('click', function () { if (window.PORTAL_hr) window.PORTAL_hr.renderMyProfile(); });
+  });
   document.addEventListener('click', function (e) {
     var g = e.target.closest('[data-goto="view-mydocs"]');
     if (g) renderMyDocs();
@@ -3614,6 +4135,519 @@ CANDIDATES.unshift({
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMyUpload(); });
 
   setRole('member');
+})();
+
+</script>
+
+<script>
+/* ============================================================
+   HR MODULE - onboarding cases and the approvals queue (admin),
+   employee profile and change requests (member).
+   Both sides work on the same CANDIDATES records the document
+   store uses, so nothing is duplicated or kept in step by hand.
+   ============================================================ */
+(function () {
+  var $  = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); };
+  var ic = function (n, size) { var s = size || 16; return '<svg width="' + s + '" height="' + s + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; };
+  var byId = function (id) { for (var i = 0; i < CANDIDATES.length; i++) { if (CANDIDATES[i].id === id) return CANDIDATES[i]; } return null; };
+  var me = function () { return byId(ME_ID); };
+  var initials = function (n) { return n.split(' ').slice(0, 2).map(function (p) { return p[0]; }).join('').toUpperCase(); };
+  var avaColor = function (id) { var s = 0; for (var i = 0; i < id.length; i++) { s += id.charCodeAt(i); } return 'c' + (s % 8 + 1); };
+  var toast = function (t, b) { window.PORTAL_admin.toast(t, b); };
+
+  function cases() { return CANDIDATES.filter(function (c) { return c.onboarding; }); }
+  function taskState(c) {
+    var t = onboardingTasks(c), done = t.filter(function (x) { return x.state === 'done'; }).length;
+    return { tasks: t, done: done, total: t.length };
+  }
+  function pendingDocs(c) {
+    return (c.docs || []).filter(function (x) { return x.status === 'Review required'; });
+  }
+  function pendingChanges(c) {
+    return (c.changes || []).filter(function (x) { return x.status === 'Submitted'; });
+  }
+  function approvalCount() {
+    var n = 0;
+    CANDIDATES.forEach(function (c) { n += pendingDocs(c).length + pendingChanges(c).length; });
+    return n;
+  }
+
+  /* ---------------- Admin: tiles ---------------- */
+  function renderTiles() {
+    var all = cases();
+    var tiles = [
+      { label: 'Onboarding in flight', value: all.filter(function (c) { return c.onboarding.status !== 'Employee created'; }).length, hint: 'Cases not yet finished', tone: '' },
+      { label: 'Waiting on the new hire', value: all.filter(function (c) { return taskState(c).done < taskState(c).total && c.onboarding.status !== 'Ready to activate'; }).length, hint: 'Documents or details outstanding', tone: 'is-info' },
+      { label: 'Waiting on you', value: approvalCount(), hint: 'Submitted, needs a decision', tone: 'is-warning' },
+      { label: 'Ready to activate', value: all.filter(function (c) { return c.onboarding.status === 'Ready to activate'; }).length, hint: 'Every task cleared', tone: 'is-danger' }
+    ];
+    $('#onboardTiles').innerHTML = tiles.map(function (t) {
+      return '<div class="card stat-tile ' + t.tone + '" style="cursor:default;">' +
+        '<span class="st-top"><span class="st-dot"></span><span class="st-label">' + esc(t.label) + '</span></span>' +
+        '<span class="st-value">' + t.value + '</span><span class="st-hint">' + esc(t.hint) + '</span></div>';
+    }).join('');
+  }
+
+  /* ---------------- Admin: cases table ---------------- */
+  function personCell(c) {
+    return '<div class="cell-person"><span class="avatar ' + avaColor(c.id) + '" style="width:28px;height:28px;font-size:11px;">' + initials(c.name) + '</span>' +
+      '<span style="display:flex;flex-direction:column;min-width:0;"><span class="cell-strong">' + esc(c.name) + '</span>' +
+      '<span class="cell-sub">' + esc(c.id) + '</span></span></div>';
+  }
+  function renderCases() {
+    var all = cases();
+    $('#caseRows').innerHTML = all.length ? all.map(function (c) {
+      var st = taskState(c), pct = Math.round(st.done / st.total * 100);
+      var docs = (c.docs || []).filter(function (x) { return WAITING.indexOf(x.status) === -1; }).length;
+      var badge = (ONBOARD_STATUS[c.onboarding.status] || { badge: 'is-neutral' }).badge;
+      return '<tr>' +
+        '<td>' + personCell(c) + '</td>' +
+        '<td>' + esc(c.role) + '</td>' +
+        '<td>' + esc(c.onboarding.startDate) + '</td>' +
+        '<td><div class="meter" style="min-width:150px;">' +
+          '<div class="meter-head"><span class="meter-label">' + st.done + ' of ' + st.total + ' tasks</span></div>' +
+          '<div class="progress"><div class="progress-fill ' + (st.done === st.total ? 'is-complete' : 'is-short') + '" style="width:' + pct + '%"></div></div>' +
+        '</div></td>' +
+        '<td><span class="badge ' + badge + '">' + esc(c.onboarding.status) + '</span></td>' +
+        '<td>' + docs + ' of ' + (c.docs || []).length + '</td>' +
+        '<td>' + esc(c.onboarding.buddy) + '</td>' +
+        '<td><button class="btn btn-surface is-sm" data-case="' + c.id + '">' + ic('eye') + ' Open</button></td>' +
+      '</tr>';
+    }).join('') : '<tr><td colspan="8"><div class="empty-state"><div class="empty-art">' + ic('user-check', 40) + '</div>' +
+        '<h2>No onboarding in flight</h2><p>Start one from an accepted offer and the new hire gets their task list.</p></div></td></tr>';
+    $('#caseCount').textContent = all.length + ' case' + (all.length === 1 ? '' : 's');
+    $$('#caseRows [data-case]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        window.PORTAL_admin.openProfile(b.getAttribute('data-case'), 'Onboarding');
+      });
+    });
+  }
+
+  /* ---------------- Admin: approvals queue ---------------- */
+  function approvalCard(c, kind, item) {
+    var isDoc = kind === 'doc';
+    var title = isDoc ? item.file : item.field;
+    var sub = isDoc ? 'Document . ' + item.cat : 'Change request . ' + item.id;
+    var body = isDoc
+      ? '<div class="data-list">' +
+          '<span class="dl-label">Category</span><span class="dl-value">' + esc(item.cat) + '</span>' +
+          '<span class="dl-label">Submitted by</span><span class="dl-value">' + esc(item.by) + '</span>' +
+          '<span class="dl-label">Submitted</span><span class="dl-value">' + esc(item.date) + '</span>' +
+        '</div>'
+      : '<div class="change-diff">' +
+          '<div class="cd-side"><span class="cd-label">On file now</span><span class="cd-value">' + esc(item.from) + '</span></div>' +
+          '<span class="cd-arrow">' + ic('arrow-right', 18) + '</span>' +
+          '<div class="cd-side is-new"><span class="cd-label">Requested</span><span class="cd-value">' + esc(item.to) + '</span></div>' +
+        '</div>' +
+        '<div class="data-list" style="margin-top:var(--space-4);">' +
+          '<span class="dl-label">Reason</span><span class="dl-value">' + esc(item.reason || 'Not given') + '</span>' +
+          '<span class="dl-label">Proof</span><span class="dl-value">' + (item.proof ? esc(item.proof) : 'None needed for this field') + '</span>' +
+          '<span class="dl-label">Raised</span><span class="dl-value">' + esc(item.raisedOn) + '</span>' +
+        '</div>';
+
+    return '<section class="card approval-card">' +
+      '<div class="ap-head">' +
+        '<span class="avatar ' + avaColor(c.id) + '" style="width:36px;height:36px;font-size:13px;">' + initials(c.name) + '</span>' +
+        '<span class="ap-text">' +
+          '<span class="ap-title">' + esc(title) + '</span>' +
+          '<span class="ap-sub">' + esc(c.name) + ' . ' + esc(sub) + '</span>' +
+        '</span>' +
+        '<span class="badge ' + (isDoc ? 'is-warning' : 'is-warning') + '">' + ic('clock', 12) + ' Waiting on you</span>' +
+      '</div>' +
+      body +
+      '<div class="ap-foot">' +
+        '<button class="btn btn-ghost is-sm" data-apview="' + esc(c.id) + '">' + ic('external') + ' Open their record</button>' +
+        '<span class="spacer"></span>' +
+        '<button class="btn btn-surface is-sm" data-apreject="' + esc(kind) + '|' + esc(c.id) + '|' + esc(isDoc ? item.file : item.id) + '">' + ic('circle-x') + ' Reject</button>' +
+        '<button class="btn btn-solid is-sm" data-apapprove="' + esc(kind) + '|' + esc(c.id) + '|' + esc(isDoc ? item.file : item.id) + '">' + ic('check') + ' Approve</button>' +
+      '</div>' +
+    '</section>';
+  }
+
+  function renderApprovals() {
+    var cards = [];
+    CANDIDATES.forEach(function (c) {
+      pendingChanges(c).forEach(function (r) { cards.push(approvalCard(c, 'change', r)); });
+      pendingDocs(c).forEach(function (x) { cards.push(approvalCard(c, 'doc', x)); });
+    });
+    $('#apprList').innerHTML = cards.length
+      ? '<div class="stack-4">' + cards.join('') + '</div>'
+      : '<section class="card"><div class="empty-state"><div class="empty-art">' + ic('circle-check', 40) + '</div>' +
+        '<h2>Nothing waiting on you</h2><p>Every document and change request has a decision. New submissions land here.</p></div></section>';
+    var n = approvalCount();
+    $('#apprCount').textContent = n;
+    $('#apprNote').textContent = n
+      ? n + ' item' + (n === 1 ? '' : 's') + ' waiting: documents submitted against a request, and changes employees have asked for on their own record.'
+      : 'Everything an employee has sent in for a decision: documents submitted against a request, and changes to their own record.';
+  }
+
+  /* ---------------- Approve and reject ---------------- */
+  function findChange(c, id) { return (c.changes || []).filter(function (r) { return r.id === id; })[0]; }
+  function findDoc(c, file) { return (c.docs || []).filter(function (x) { return x.file === file; })[0]; }
+
+  function approve(kind, cid, ref) {
+    var c = byId(cid);
+    if (kind === 'doc') {
+      var x = findDoc(c, ref);
+      x.status = 'Verified';
+      toast('Approved', ref + ' is verified on ' + c.name + "'s file.");
+    } else {
+      var r = findChange(c, ref);
+      r.status = 'Approved'; r.decidedBy = ADMIN.name; r.decidedOn = 'Today';
+      applyChange(c, r);
+      toast('Approved', c.name + "'s " + r.field.toLowerCase() + ' has been updated.');
+    }
+    refreshAll();
+  }
+
+  /* An approved change is the only thing that writes to the employee record. */
+  function applyChange(c, r) {
+    var map = {
+      'Current address': 'currentAddress', 'Permanent address': 'permanentAddress',
+      'Marital status': 'maritalStatus', 'Alternate number': 'altPhone',
+      'Personal email': 'personalEmail', 'Bank account': 'bank', 'Emergency contact': 'emergencyName'
+    };
+    if (r.field === 'Mobile') { c.phone = r.to; return; }
+    var k = map[r.field];
+    if (k && c.profile) c.profile[k] = r.to;
+  }
+
+  var rejectTarget = null;
+  function openReject(kind, cid, ref) {
+    var c = byId(cid);
+    rejectTarget = { kind: kind, cid: cid, ref: ref };
+    $('#rejTitle').textContent = kind === 'doc' ? 'Reject this document' : 'Reject this change';
+    $('#rejSub').textContent = kind === 'doc'
+      ? ref + ' from ' + c.name + '. They will be asked to send a new one.'
+      : c.name + ' asked to change their ' + findChange(c, ref).field.toLowerCase() + '. Their record stays as it is.';
+    $('#rejReason').value = '';
+    $('#hint-rej').classList.remove('is-error');
+    $('#hint-rej').textContent = 'They see this word for word, so write it for them, not for the file.';
+    $('#rejectOverlay').hidden = false;
+    $('#rejReason').focus();
+  }
+  function closeReject() { $('#rejectOverlay').hidden = true; rejectTarget = null; }
+  $$('[data-reject-close]').forEach(function (b) { b.addEventListener('click', closeReject); });
+  $('#rejectOverlay').addEventListener('click', function (e) { if (e.target === this) closeReject(); });
+  $('#rejSubmit').addEventListener('click', function () {
+    var why = $('#rejReason').value.trim();
+    if (!why) {
+      $('#hint-rej').classList.add('is-error');
+      $('#hint-rej').textContent = 'Give a reason. A rejection with no reason just comes back again.';
+      return;
+    }
+    var c = byId(rejectTarget.cid);
+    if (rejectTarget.kind === 'doc') {
+      var x = findDoc(c, rejectTarget.ref);
+      x.status = 'Re-upload requested';
+      x.reqBy = ADMIN.name; x.reqOn = 'Today'; x.reqNote = why;
+      toast('Rejected', c.name + ' has been asked for a new copy of ' + rejectTarget.ref + '.');
+    } else {
+      var r = findChange(c, rejectTarget.ref);
+      r.status = 'Rejected'; r.decidedBy = ADMIN.name; r.decidedOn = 'Today'; r.note = why;
+      toast('Rejected', c.name + ' has been told why their ' + r.field.toLowerCase() + ' change was not accepted.');
+    }
+    closeReject();
+    refreshAll();
+  });
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-apapprove]');
+    if (a) { var p = a.getAttribute('data-apapprove').split('|'); approve(p[0], p[1], p[2]); return; }
+    var r = e.target.closest('[data-apreject]');
+    if (r) { var q = r.getAttribute('data-apreject').split('|'); openReject(q[0], q[1], q[2]); return; }
+    var v = e.target.closest('[data-apview]');
+    if (v) { window.PORTAL_admin.openProfile(v.getAttribute('data-apview'), 'Overview'); }
+  });
+
+  /* ---------------- Onboarding tabs ---------------- */
+  $$('#onboardTabs .seg-tab').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var id = b.getAttribute('data-opanel');
+      $$('#onboardTabs .seg-tab').forEach(function (x) { x.classList.toggle('is-active', x === b); });
+      $$('#view-onboard .tab-panel').forEach(function (p) { p.hidden = p.id !== id; });
+    });
+  });
+
+  /* ---------------- Initiate onboarding ---------------- */
+  var hrMenuFor = null, initWho = null, initBuddy = 'Ananya Bose';
+  function eligible() {
+    return CANDIDATES.filter(function (c) { return !c.onboarding && (c.stage === 'Offer' || c.stage === 'Hired'); });
+  }
+  function hrMenuItems(kind) {
+    if (kind === 'hire') return eligible().map(function (c) { return { label: c.name, sub: c.id + ' . ' + c.role, value: c.id }; });
+    if (kind === 'field') return CHANGE_FIELDS.map(function (f) { return { label: f.field, sub: f.proof, value: f.field }; });
+    return ['Ananya Bose', 'Arun Pillai', 'Rohit Anand', 'Vikram Desai', 'Sneha Kulkarni'].map(function (n) { return { label: n, sub: '', value: n }; });
+  }
+  function closeHrMenu() { $('#hrMenu').hidden = true; hrMenuFor = null; }
+  function openHrMenu(trigger) {
+    var kind = trigger.getAttribute('data-hrmenu'), m = $('#hrMenu');
+    var items = hrMenuItems(kind);
+    m.innerHTML = items.length ? items.map(function (o) {
+      return '<div class="list-item" data-value="' + esc(o.value) + '" data-label="' + esc(o.label) + '">' +
+        '<span style="display:flex;flex-direction:column;min-width:0;"><span>' + esc(o.label) + '</span>' +
+        (o.sub ? '<span style="font-size:var(--fs-1);opacity:.7;">' + esc(o.sub) + '</span>' : '') + '</span></div>';
+    }).join('') : '<div class="list-item is-disabled">Everyone with an accepted offer already has a case</div>';
+    var r = trigger.getBoundingClientRect();
+    m.hidden = false;
+    m.style.minWidth = r.width + 'px';
+    m.style.left = r.left + 'px';
+    m.style.top = (r.bottom + 6 + m.offsetHeight > window.innerHeight ? r.top - m.offsetHeight - 6 : r.bottom + 6) + 'px';
+    hrMenuFor = kind;
+    $$('.list-item', m).forEach(function (li) {
+      li.addEventListener('click', function () {
+        var val = li.getAttribute('data-value');
+        if (!val) return;
+        $('[data-value]', trigger).textContent = li.getAttribute('data-label');
+        if (kind === 'hire') {
+          initWho = val;
+          $('#hint-initWho').classList.remove('is-error');
+          $('#hint-initWho').textContent = 'Only candidates who have accepted an offer and have no case yet.';
+          renderInitDocs(val);
+        } else if (kind === 'field') { setChgField(val); }
+        else { initBuddy = val; }
+        closeHrMenu();
+      });
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-hrmenu]');
+    if (t) { e.stopPropagation(); if (hrMenuFor === t.getAttribute('data-hrmenu')) { closeHrMenu(); } else { closeHrMenu(); openHrMenu(t); } return; }
+    if (!e.target.closest('#hrMenu')) closeHrMenu();
+  });
+
+  function renderInitDocs(cid) {
+    var c = cid ? byId(cid) : null;
+    var comp = c ? window.PORTAL_admin.completion(c) : null;
+    $('#initDocs').innerHTML = REQUIRED.map(function (r) {
+      var state = comp ? comp.list.filter(function (x) { return x.req.key === r.key; })[0].state : 'missing';
+      return '<label class="checkbox"><input type="checkbox" data-initreq="' + r.key + '"' + (state !== 'done' ? ' checked' : '') + ' /> ' + esc(r.label) +
+        (state === 'done' ? ' <span class="badge is-success" style="margin-left:var(--space-1);">On file</span>' : '') + '</label>';
+    }).join('');
+  }
+
+  function openInit() {
+    $('#initForm').hidden = false; $('#initDone').hidden = true;
+    initWho = null; initBuddy = 'Ananya Bose';
+    $('[data-value]', $('#initWho')).textContent = 'Select an accepted candidate';
+    $('[data-value]', $('#initBuddy')).textContent = initBuddy;
+    $('#initProfile').checked = true; $('#initPolicies').checked = true;
+    renderInitDocs(null);
+    $('#initOverlay').hidden = false;
+  }
+  function closeInit() { $('#initOverlay').hidden = true; closeHrMenu(); }
+  $('#initiateBtn').addEventListener('click', openInit);
+  $$('[data-init-close]').forEach(function (b) { b.addEventListener('click', closeInit); });
+  $('#initOverlay').addEventListener('click', function (e) { if (e.target === this) closeInit(); });
+
+  $('#initSubmit').addEventListener('click', function () {
+    if (!initWho) {
+      $('#hint-initWho').classList.add('is-error');
+      $('#hint-initWho').textContent = 'Pick who you are onboarding.';
+      return;
+    }
+    var c = byId(initWho);
+    var picked = $$('#initDocs [data-initreq]').filter(function (b) { return b.checked; }).map(function (b) { return b.getAttribute('data-initreq'); });
+
+    c.onboarding = {
+      status: 'Invited',
+      initiatedBy: ADMIN.name,
+      initiatedOn: 'Today',
+      startDate: $('#initStart').value,
+      offerOn: 'Offer accepted',
+      buddy: initBuddy,
+      docsDone: false,
+      profileDone: !$('#initProfile').checked,
+      policiesDone: !$('#initPolicies').checked,
+      itDone: false, recordDone: false
+    };
+    c.due = $('#initStart').value;
+
+    picked.forEach(function (k) {
+      var req = REQUIRED.filter(function (x) { return x.key === k; })[0];
+      var existing = (c.docs || []).filter(function (x) { return x.req === k; })[0];
+      if (!existing) {
+        c.docs.push(d(req.label.replace(/ /g, '_') + '.pdf', req.cat, 'Awaiting candidate', 'skyHire', 'Today', k));
+      } else if (WAITING.indexOf(existing.status) === -1) {
+        existing.status = 'Re-upload requested';
+      }
+      var doc = (c.docs || []).filter(function (x) { return x.req === k; })[0];
+      doc.reqBy = ADMIN.name; doc.reqOn = 'Today';
+    });
+    c.updated = 'Just now';
+
+    $('#initDoneSub').textContent = c.name + ' has been invited, with ' + picked.length + ' document' + (picked.length === 1 ? '' : 's') + ' to send in before ' + $('#initStart').value + '.';
+    $('#initForm').hidden = true; $('#initDone').hidden = false;
+    refreshAll();
+  });
+
+  /* ---------------- Member: profile and change requests ---------------- */
+  var PROFILE_VIEW = [
+    { title: 'Personal details', rows: [['Date of birth', 'dob'], ['Gender', 'gender'], ['Marital status', 'maritalStatus'], ['Nationality', 'nationality']] },
+    { title: 'Contact', rows: [['Work email', 'workEmail'], ['Personal email', 'personalEmail'], ['Mobile', '@phone'], ['Alternate number', 'altPhone']] },
+    { title: 'Address', rows: [['Current address', 'currentAddress'], ['Permanent address', 'permanentAddress']] },
+    { title: 'Employment', rows: [['Employee ID', 'employeeId'], ['Job title', '@role'], ['Employment type', 'employmentType'], ['Start date', 'startDate'], ['Reports to', '@manager']] },
+    { title: 'Statutory and payroll', rows: [['PAN', 'pan'], ['Aadhaar', 'aadhaar'], ['UAN', 'uan'], ['Bank account', 'bank']] },
+    { title: 'Emergency contact', rows: [['Name', 'emergencyName'], ['Relationship', 'emergencyRelation'], ['Phone', 'emergencyPhone']] }
+  ];
+  function valueOf(c, key) {
+    if (key.charAt(0) === '@') return c[key.slice(1)];
+    return (c.profile || {})[key];
+  }
+  function changeableFields() { return CHANGE_FIELDS.map(function (f) { return f.field; }); }
+
+  function renderMyProfile() {
+    var c = me();
+    $('#myProfileBody').innerHTML = '<div class="card-grid">' + PROFILE_VIEW.map(function (sec) {
+      return '<section class="card"><div class="panel-head"><div class="panel-title">' + esc(sec.title) + '</div></div>' +
+        '<div class="data-list">' + sec.rows.map(function (r) {
+          var pend = (c.changes || []).filter(function (x) { return x.field === r[0] && x.status === 'Submitted'; })[0];
+          var flag = pend ? ' <span class="badge is-warning">' + ic('clock', 12) + ' Waiting on HR</span>' : '';
+          return '<span class="dl-label">' + esc(r[0]) + '</span><span class="dl-value">' + esc(valueOf(c, r[1]) || 'Not recorded') + flag + '</span>';
+        }).join('') + '</div>' +
+        (sec.rows.some(function (r) { return changeableFields().indexOf(r[0]) > -1; })
+          ? '<button class="btn btn-surface is-sm" style="margin-top:var(--space-4);align-self:flex-start;" data-change-open data-change-field="' +
+            esc(sec.rows.filter(function (r) { return changeableFields().indexOf(r[0]) > -1; })[0][0]) + '">' + ic('pencil') + ' Request a change</button>'
+          : '<span class="field-hint" style="margin-top:var(--space-4);">Set by HR. Raise a ticket if something here is wrong.</span>') +
+      '</section>';
+    }).join('') + '</div>';
+
+    var reqs = c.changes || [];
+    $('#myChanges').innerHTML = reqs.length
+      ? '<section class="card"><div class="panel-head"><div><div class="panel-title">Your change requests</div>' +
+        '<div class="panel-sub">Nothing on your record changes until HR approves it.</div></div></div>' +
+        '<div class="stack-3">' + reqs.map(function (r) {
+          var st = CHANGE_STATUS[r.status];
+          return '<div class="req-row is-' + r.status.toLowerCase() + '">' +
+            '<span class="rr-ic">' + ic(st.icon, 18) + '</span>' +
+            '<span class="rr-body">' +
+              '<span class="rr-top"><span class="rr-field">' + esc(r.field) + '</span>' +
+                '<span class="badge ' + st.badge + '">' + esc(r.status) + '</span>' +
+                '<span class="rr-id">' + esc(r.id) + '</span></span>' +
+              '<span class="rr-value">' + esc(r.to) + '</span>' +
+              '<span class="rr-meta">Raised ' + esc(r.raisedOn) + (r.decidedOn ? ' . decided ' + esc(r.decidedOn) + ' by ' + esc(r.decidedBy) : ' . waiting on HR') + '</span>' +
+              (r.note ? '<span class="rr-note">' + ic('circle-alert', 14) + ' ' + esc(r.note) + '</span>' : '') +
+            '</span>' +
+            (r.status === 'Rejected' ? '<button class="btn btn-surface is-sm" data-change-open data-change-field="' + esc(r.field) + '">' + ic('rotate-ccw') + ' Send a new one</button>' : '') +
+          '</div>';
+        }).join('') + '</div></section>'
+      : '';
+
+    renderOnboardTasks();
+  }
+
+  function renderOnboardTasks() {
+    var c = me();
+    if (!c.onboarding || c.onboarding.status === 'Employee created') { $('#onboardTasks').innerHTML = ''; return; }
+    var st = taskState(c);
+    $('#onboardTasks').innerHTML = '<section class="card request-card">' +
+      '<div class="rq-head">' +
+        '<span class="rq-ic">' + ic('user-check', 20) + '</span>' +
+        '<div class="rq-text">' +
+          '<div class="rq-title">You are being onboarded, ' + st.done + ' of ' + st.total + ' steps done</div>' +
+          '<div class="rq-sub">Started by ' + esc(c.onboarding.initiatedBy) + ' . you start on ' + esc(c.onboarding.startDate) + '</div>' +
+        '</div>' +
+        '<button class="btn btn-solid" data-goto="view-mydocs">' + ic('upload') + ' Send documents</button>' +
+      '</div>' +
+      '<div class="rq-list">' + st.tasks.map(function (t) {
+        var icon = t.state === 'done' ? 'circle-check' : (t.state === 'waiting' ? 'hourglass' : 'clock');
+        return '<div class="rq-item">' +
+          '<span class="rq-item-ic" style="color:' + (t.state === 'done' ? 'var(--success-solid)' : t.state === 'waiting' ? 'var(--info-solid)' : 'var(--fg-subtle)') + '">' + ic(icon, 18) + '</span>' +
+          '<span class="rq-item-text"><span class="rq-item-name">' + esc(t.label) + '</span>' +
+          '<span class="rq-item-note">' + esc(t.meta) + '</span></span>' +
+          '<span class="badge ' + (t.state === 'done' ? 'is-success' : t.state === 'waiting' ? 'is-info' : 'is-neutral') + '">' +
+            (t.state === 'done' ? 'Done' : t.state === 'waiting' ? 'Your turn' : 'Not started') + '</span>' +
+        '</div>';
+      }).join('') + '</div></section>';
+  }
+
+  /* ---------------- Member: change request dialog ---------------- */
+  var chgField = null;
+  function fieldSpec(name) { return CHANGE_FIELDS.filter(function (f) { return f.field === name; })[0]; }
+  function currentValue(name) {
+    var c = me();
+    if (name === 'Mobile') return c.phone;
+    var map = { 'Current address': 'currentAddress', 'Permanent address': 'permanentAddress', 'Marital status': 'maritalStatus',
+                'Alternate number': 'altPhone', 'Personal email': 'personalEmail', 'Bank account': 'bank', 'Emergency contact': 'emergencyName' };
+    return (c.profile || {})[map[name]];
+  }
+  function setChgField(name) {
+    chgField = name;
+    var spec = fieldSpec(name);
+    $('[data-value]', $('#chgField')).textContent = name;
+    $('#chgCurrentWrap').hidden = false;
+    $('#chgCurrent').textContent = currentValue(name) || 'Not recorded';
+    var needsProof = spec.proof !== 'No proof needed';
+    $('#chgProofReq').hidden = !needsProof;
+    $('#chgProofHint').textContent = spec.proof;
+    $('#hint-chgField').classList.remove('is-error');
+    $('#hint-chgField').textContent = needsProof ? 'HR checks the proof before this is applied.' : 'No proof needed for this field.';
+  }
+  window.PORTAL_openChange = function (field) {
+    $('#changeForm').hidden = false; $('#changeDone').hidden = true;
+    chgField = null;
+    $('[data-value]', $('#chgField')).textContent = 'Select a field';
+    $('#chgCurrentWrap').hidden = true;
+    $('#chgNew').value = ''; $('#chgReason').value = '';
+    $('#chgFileName').textContent = 'Choose a file or drop it here';
+    $('#chgProofHint').textContent = 'Select a field to see what counts as proof.';
+    ['#hint-chgField', '#hint-chgNew', '#hint-chgProof'].forEach(function (s) { $(s).classList.remove('is-error'); });
+    if (field) setChgField(field);
+    $('#changeOverlay').hidden = false;
+  };
+  function closeChange() { $('#changeOverlay').hidden = true; }
+  $$('[data-change-close]').forEach(function (b) { b.addEventListener('click', closeChange); });
+  $('#changeOverlay').addEventListener('click', function (e) { if (e.target === this) closeChange(); });
+  $('#changeBtn').addEventListener('click', function () { window.PORTAL_openChange(null); });
+  document.addEventListener('click', function (e) {
+    var o = e.target.closest('[data-change-open]');
+    if (o) { e.preventDefault(); window.PORTAL_openChange(o.getAttribute('data-change-field')); }
+  });
+  $('#chgZone').addEventListener('click', function () {
+    $('#chgFileName').textContent = 'Proof_Sep2026.pdf . 0.9 MB';
+    $('#hint-chgProof').classList.remove('is-error');
+    $('#hint-chgProof').textContent = 'Sample file attached. Nothing uploads in this prototype.';
+  });
+  $('#chgSubmit').addEventListener('click', function () {
+    var ok = true;
+    if (!chgField) { ok = false; $('#hint-chgField').classList.add('is-error'); $('#hint-chgField').textContent = 'Pick what you are changing.'; }
+    if (!$('#chgNew').value.trim()) { ok = false; $('#hint-chgNew').classList.add('is-error'); $('#hint-chgNew').textContent = 'Type the new value.'; }
+    var needsProof = chgField && fieldSpec(chgField).proof !== 'No proof needed';
+    if (needsProof && $('#chgFileName').textContent.indexOf('Choose') === 0) {
+      ok = false; $('#hint-chgProof').classList.add('is-error'); $('#hint-chgProof').textContent = 'This field needs proof before HR can approve it.';
+    }
+    if (!ok) return;
+
+    var c = me();
+    c.changes.unshift({
+      id: newChangeId(),
+      field: chgField,
+      from: currentValue(chgField) || 'Not recorded',
+      to: $('#chgNew').value.trim(),
+      reason: $('#chgReason').value.trim(),
+      proof: needsProof ? $('#chgFileName').textContent.split(' . ')[0] : null,
+      status: 'Submitted',
+      raisedOn: 'Today'
+    });
+    $('#chgDoneSub').textContent = 'HR will look at your ' + chgField.toLowerCase() + ' change and let you know.';
+    $('#changeForm').hidden = true; $('#changeDone').hidden = false;
+    refreshAll();
+  });
+
+  /* ---------------- Shared refresh ---------------- */
+  function refreshAll() {
+    renderTiles(); renderCases(); renderApprovals();
+    renderMyProfile();
+    if (window.PORTAL_renderMyDocs) window.PORTAL_renderMyDocs();
+    window.PORTAL_admin.render();
+    var b = $('#apprBadge');
+    if (b) { var n = approvalCount(); b.hidden = n === 0; b.textContent = n; }
+  }
+
+  window.PORTAL_hr = { refresh: refreshAll, renderMyProfile: renderMyProfile, approvalCount: approvalCount };
+  refreshAll();
 })();
 
 </script>
