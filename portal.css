@@ -1,0 +1,435 @@
+/* ============================================================
+   skyHire Referrals - project component extensions
+   Derived from the Radix-Design System 12-step scale roles.
+   Every value is a token from tokens.css. No raw hex, no magic
+   colors. Documented in components-referral.md.
+   ============================================================ */
+
+/* ---- Job card (Open Roles gallery item; extends .card) ---- */
+.job-card { gap: var(--space-3); transition: box-shadow .12s ease-out, border-color .12s ease-out; }
+.job-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-2); }
+.job-card .jc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.job-card .jc-id { display: block; font-size: var(--fs-1); color: var(--fg-subtle); margin-top: 2px; letter-spacing: .02em; }
+.job-card .jc-title { display: block; font-size: var(--fs-4); line-height: var(--lh-4); font-weight: var(--weight-bold); color: var(--fg-high); text-align: left; background: none; border: 0; padding: 0; cursor: pointer; font-family: var(--font-base); }
+.job-card .jc-title:hover { color: var(--accent-12); text-decoration: underline; }
+.job-card .jc-meta { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+.job-card .jc-meta-item { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--fs-1); color: var(--fg-low); }
+.job-card .jc-meta-item svg { width: 14px; height: 14px; color: var(--fg-subtle); flex: 0 0 auto; }
+.job-card .jc-tags { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.job-card .jc-elig { font-size: var(--fs-2); line-height: var(--lh-2); color: var(--fg-low); }
+.job-card .jc-foot { display: flex; align-items: center; gap: var(--space-2); margin-top: auto; padding-top: var(--space-3); border-top: var(--stroke-thin) solid var(--border-subtle); }
+.job-card .jc-foot .spacer { flex: 1; }
+
+/* Referral bonus figure (money, not brand: green success scale) */
+.bonus { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--success-text); }
+.bonus svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.bonus .bonus-label { color: var(--fg-low); font-weight: var(--weight-regular); font-size: var(--fs-1); }
+
+/* ---- Pipeline (compact stage tracker inside a table cell) ---- */
+.pipeline { display: inline-flex; align-items: center; gap: 3px; }
+.pipeline .pl-step { width: 22px; height: 5px; border-radius: var(--radius-full); background: var(--gray-4); }
+.pipeline .pl-step.is-done { background: var(--success-solid); }
+.pipeline .pl-step.is-current { background: var(--info-solid); }
+.pipeline .pl-step.is-lost { background: var(--danger-solid); }
+.pipeline .pl-step.is-hold { background: var(--warning-solid); }
+.pipeline-cell { display: flex; flex-direction: column; gap: 4px; }
+.pipeline-cell .pl-label { font-size: var(--fs-1); color: var(--fg-low); }
+
+/* ---- Timeline (referral status history / interview process) ---- */
+.timeline { display: flex; flex-direction: column; }
+.timeline .tl-item { display: grid; grid-template-columns: 24px 1fr; gap: var(--space-3); padding-bottom: var(--space-4); position: relative; }
+.timeline .tl-item:last-child { padding-bottom: 0; }
+.timeline .tl-item::before { content: ""; position: absolute; left: 11px; top: 22px; bottom: 0; width: 2px; background: var(--gray-4); }
+.timeline .tl-item:last-child::before { display: none; }
+.timeline .tl-dot { width: 24px; height: 24px; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center; background: var(--gray-3); color: var(--fg-subtle); z-index: 1; }
+.timeline .tl-dot svg { width: 14px; height: 14px; }
+.timeline .tl-item.is-done .tl-dot { background: var(--success-bg); color: var(--success-text); }
+.timeline .tl-item.is-done::before { background: var(--success-border); }
+.timeline .tl-item.is-current .tl-dot { background: var(--info-solid); color: #fff; }
+.timeline .tl-item.is-lost .tl-dot { background: var(--danger-bg); color: var(--danger-text); }
+.timeline .tl-item.is-hold .tl-dot { background: var(--warning-bg); color: var(--warning-text); }
+.timeline .tl-body { display: flex; flex-direction: column; gap: 2px; padding-top: 2px; min-width: 0; }
+.timeline .tl-title { font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--fg-high); }
+.timeline .tl-item.is-pending .tl-title { color: var(--fg-subtle); font-weight: var(--weight-regular); }
+.timeline .tl-meta { font-size: var(--fs-1); color: var(--fg-subtle); }
+.timeline .tl-note { font-size: var(--fs-2); color: var(--fg-low); margin-top: var(--space-1); padding: var(--space-2) var(--space-3); background: var(--gray-2); border-radius: var(--radius-3); }
+
+/* ---- Numbered how-it-works steps ---- */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+.steps .step { display: flex; flex-direction: column; gap: var(--space-2); }
+.steps .step-num { width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--accent-3); color: var(--accent-12); font-size: var(--fs-2); font-weight: var(--weight-bold); display: inline-flex; align-items: center; justify-content: center; }
+.steps .step-title { font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--fg-high); }
+.steps .step-desc { font-size: var(--fs-1); line-height: var(--lh-2); color: var(--fg-low); }
+@media (max-width: 1024px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .steps { grid-template-columns: 1fr; } }
+
+/* ---- Role row (compact opening in a list, e.g. Overview rail) ---- */
+.role-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: var(--stroke-thin) solid var(--border-subtle); }
+.role-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.role-row:first-child { padding-top: 0; }
+.role-row .rr-ic { width: 36px; height: 36px; border-radius: var(--radius-3); background: var(--gray-3); color: var(--fg-low); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.role-row .rr-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.role-row .rr-title { font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--fg-high); }
+.role-row .rr-sub { font-size: var(--fs-1); color: var(--fg-low); }
+
+/* ---- Activity row (recent referee updates) ---- */
+.activity { display: flex; flex-direction: column; gap: var(--space-4); }
+.activity .ac-item { display: flex; gap: var(--space-3); }
+.activity .ac-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.activity .ac-title { font-size: var(--fs-2); color: var(--fg-high); }
+.activity .ac-title strong { font-weight: var(--weight-medium); }
+.activity .ac-time { font-size: var(--fs-1); color: var(--fg-subtle); }
+
+/* ---- Upload zone (optional resume in the refer form) ---- */
+.upload-zone { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-3); background: var(--gray-2); box-shadow: inset 0 0 0 1px var(--border-subtle); cursor: pointer; }
+.upload-zone:hover { background: var(--gray-3); }
+.upload-zone .uz-ic { width: 32px; height: 32px; border-radius: var(--radius-3); background: var(--accent-3); color: var(--accent-12); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.upload-zone .uz-text { display: flex; flex-direction: column; gap: 2px; }
+.upload-zone .uz-title { font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--fg-high); }
+.upload-zone .uz-sub { font-size: var(--fs-1); color: var(--fg-low); }
+
+/* ---- Live indicator (realtime status freshness) ---- */
+.live { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-1); color: var(--fg-low); }
+.live .live-dot { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--success-solid); position: relative; flex: 0 0 auto; }
+.live .live-dot::after { content: ""; position: absolute; inset: -3px; border-radius: var(--radius-full); background: var(--success-solid); opacity: .28; animation: sh-pulse 2s ease-out infinite; }
+@keyframes sh-pulse { 0% { transform: scale(.6); opacity: .35; } 70% { transform: scale(1.5); opacity: 0; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .live .live-dot::after { animation: none; } }
+
+/* ---- Drawer chrome (header / section / footer inside .drawer) ---- */
+.drawer-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); padding-bottom: var(--space-4); border-bottom: var(--stroke-thin) solid var(--border-subtle); margin-bottom: var(--space-4); }
+.drawer-title { font-size: var(--fs-5); line-height: var(--lh-5); font-weight: var(--weight-bold); color: var(--fg-high); }
+.drawer-sub { font-size: var(--fs-2); color: var(--fg-low); margin-top: 2px; }
+.section-title { font-size: var(--fs-1); font-weight: var(--weight-medium); letter-spacing: .04em; text-transform: uppercase; color: var(--fg-subtle); margin-bottom: var(--space-3); }
+
+/* ---- Dialog scroll body (long refer form) ---- */
+.dialog.is-form { width: min(600px, 94vw); max-height: 92vh; }
+.dialog .form-scroll { overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-4); padding-right: var(--space-1); margin-right: calc(-1 * var(--space-1)); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+@media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+
+/* ---- Success panel (post-submit confirmation inside the dialog) ---- */
+.success-panel { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-3); padding: var(--space-4) var(--space-2) 0; }
+.success-panel .sp-art { width: 64px; height: 64px; border-radius: var(--radius-full); background: var(--success-bg); color: var(--success-text); display: inline-flex; align-items: center; justify-content: center; }
+.success-panel .sp-title { font-size: var(--fs-5); line-height: var(--lh-5); font-weight: var(--weight-bold); color: var(--fg-high); }
+.success-panel .sp-sub { font-size: var(--fs-2); color: var(--fg-low); max-width: 380px; }
+.next-list { display: flex; flex-direction: column; gap: var(--space-2); width: 100%; text-align: left; padding: var(--space-3) var(--space-4); background: var(--gray-2); border-radius: var(--radius-4); }
+.next-list .nl-item { display: flex; align-items: flex-start; gap: var(--space-2); font-size: var(--fs-2); color: var(--fg-low); }
+.next-list .nl-item svg { width: 16px; height: 16px; color: var(--success-text); flex: 0 0 auto; margin-top: 2px; }
+
+/* ---- Toast host (fixed, bottom-right) ---- */
+.toast-host { position: fixed; right: var(--space-5); bottom: var(--space-5); z-index: 1200; display: flex; flex-direction: column; gap: var(--space-2); }
+.toast-host .toast { align-items: flex-start; animation: sh-rise .2s ease-out; }
+.toast .toast-ic { width: 20px; height: 20px; color: var(--success-solid); flex: 0 0 auto; }
+@keyframes sh-rise { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .toast-host .toast { animation: none; } }
+
+/* ---- List + rail helpers ---- */
+.with-rail { display: grid; grid-template-columns: 1fr 340px; gap: var(--space-5); align-items: start; }
+@media (max-width: 1080px) { .with-rail { grid-template-columns: 1fr; } }
+.stack-4 { display: flex; flex-direction: column; gap: var(--space-4); }
+.stack-3 { display: flex; flex-direction: column; gap: var(--space-3); }
+.stack-2 { display: flex; flex-direction: column; gap: var(--space-2); }
+.row-2 { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.row-3 { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.spacer { flex: 1; }
+
+/* ---- Prose block (job description body copy) ---- */
+.prose { font-size: var(--fs-2); line-height: var(--lh-3); color: var(--fg-low); }
+.prose p { margin-bottom: var(--space-3); }
+.prose p:last-child { margin-bottom: 0; }
+.bullets { display: flex; flex-direction: column; gap: var(--space-2); }
+.bullets li { display: flex; align-items: flex-start; gap: var(--space-2); font-size: var(--fs-2); line-height: var(--lh-2); color: var(--fg-low); list-style: none; }
+.bullets li svg { width: 16px; height: 16px; color: var(--fg-subtle); flex: 0 0 auto; margin-top: 2px; }
+.bullets.is-check li svg { color: var(--success-text); }
+
+/* ---- Eligibility checklist ---- */
+.check-row { display: flex; align-items: flex-start; gap: var(--space-2); font-size: var(--fs-2); color: var(--fg-low); }
+.check-row svg { width: 16px; height: 16px; flex: 0 0 auto; margin-top: 2px; }
+.check-row.is-ok svg { color: var(--success-text); }
+.check-row.is-no svg { color: var(--fg-subtle); }
+
+/* ---- Dark-theme corrections (scoped at :root specificity per rules 14) ---- */
+:root[data-theme="dark"] .timeline .tl-note,
+:root[data-theme="dark"] .next-list,
+:root[data-theme="dark"] .upload-zone { background: var(--gray-3); }
+:root[data-theme="dark"] .pipeline .pl-step { background: var(--gray-5); }
+
+/* ---- [hidden] must beat the component display (same fix as .profile-menu) ---- */
+.overlay[hidden], .dropdown-menu[hidden], .popover[hidden], .card[hidden], .card-grid[hidden], .table-wrap[hidden] { display: none; }
+
+/* ---- Keep single-line chips single-line (badges squeeze in tight table cells) ---- */
+.badge, .tag { white-space: nowrap; flex: 0 0 auto; }
+.job-card .jc-meta-item, .bonus, .bonus .bonus-label { white-space: nowrap; }
+.table td .badge { display: inline-flex; }
+
+/* ---- Dialog step (refer form vs confirmation); [hidden] must win ---- */
+.dialog-step { display: flex; flex-direction: column; gap: var(--space-3); min-height: 0; }
+.dialog-step[hidden] { display: none; }
+
+
+/* ============================================================
+   skyHire Candidate Document Centre - project component extensions
+   Derived from the Radix-Design System 12-step scale roles.
+   Every value is a token from tokens.css. No raw hex, no magic
+   colors. Documented in components-document-centre.md.
+   ============================================================ */
+
+/* ---- Known DS bugs, fixed once at the top of every build ----
+   1. .view[hidden] loses to a later .view display rule: scope with :not([hidden]).
+   2. A DS bar rendered as a <span> collapses to width 0: force block.
+   3. .cell-sub has no display:block, so a stacked name + sub run together. */
+.app-content > .view:not([hidden]) { display: flex; flex-direction: column; flex: 1; }
+.view[hidden] { display: none !important; }
+.progress, .meter-bar { display: block; }
+.table .cell-sub { display: block; }
+/* 4. A transitioned `color` that reads a var() does not re-resolve when the
+   theme flips: .seg-tab in dashboard.css transitions colour, so an inactive
+   page tab keeps its light value (#646464) on the dark canvas, measuring
+   2.69:1. Transition the background only and the token applies immediately. */
+.seg-tab { transition: background-color .12s ease-out; }
+.overlay[hidden], .dropdown-menu[hidden], .popover[hidden], .drawer[hidden],
+.card[hidden], .card-grid[hidden], .table-wrap[hidden], .tab-panel[hidden],
+.bulk-bar[hidden], .dialog-step[hidden] { display: none !important; }
+.badge, .tag { white-space: nowrap; flex: 0 0 auto; }
+
+/* ---- Stat tile (clickable KPI that filters the list below) ---- */
+.tile-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--space-3); }
+@media (max-width: 1280px) { .tile-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 720px)  { .tile-row { grid-template-columns: repeat(2, 1fr); } }
+.stat-tile { gap: var(--space-2); padding: var(--space-4); cursor: pointer; text-align: left; font-family: var(--font-base); align-items: stretch; transition: box-shadow .12s ease-out, border-color .12s ease-out; }
+.stat-tile:hover { border-color: var(--border-strong); box-shadow: var(--shadow-2); }
+.stat-tile:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--color-page), 0 0 0 4px var(--focus-ring); }
+.stat-tile.is-active { border-color: var(--accent-8); box-shadow: inset 0 0 0 1px var(--accent-8); }
+.stat-tile .st-top { display: flex; align-items: center; gap: var(--space-2); }
+.stat-tile .st-dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--gray-7); flex: 0 0 auto; }
+.stat-tile .st-label { font-size: var(--fs-1); color: var(--fg-low); line-height: var(--lh-1); }
+.stat-tile .st-value { font-size: var(--fs-6); line-height: var(--lh-6); letter-spacing: var(--ls-6); font-weight: var(--weight-bold); color: var(--fg-high); }
+.stat-tile .st-hint { font-size: var(--fs-1); color: var(--fg-subtle); }
+.stat-tile.is-info .st-dot    { background: var(--info-solid); }
+.stat-tile.is-warning .st-dot { background: var(--warning-solid); }
+.stat-tile.is-danger .st-dot  { background: var(--danger-solid); }
+.stat-tile.is-info .st-value    { color: var(--info-text); }
+.stat-tile.is-warning .st-value { color: var(--warning-text); }
+.stat-tile.is-danger .st-value  { color: var(--danger-text); }
+
+/* ---- Folder card (candidate folder in Folder view; extends .card) ---- */
+.folder-card { gap: var(--space-3); transition: box-shadow .12s ease-out, border-color .12s ease-out; }
+.folder-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-2); }
+.folder-card .fc-head { display: flex; align-items: flex-start; gap: var(--space-3); }
+.folder-card .fc-ic { width: 40px; height: 40px; border-radius: var(--radius-3); background: var(--accent-3); color: var(--accent-12); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.folder-card .fc-id-block { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.folder-card .fc-name { display: block; font-size: var(--fs-3); line-height: var(--lh-3); font-weight: var(--weight-bold); color: var(--fg-high); text-align: left; background: none; border: 0; padding: 0; cursor: pointer; font-family: var(--font-base); }
+.folder-card .fc-name:hover { text-decoration: underline; }
+.folder-card .fc-id { display: block; font-size: var(--fs-1); color: var(--fg-subtle); letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.folder-card .fc-role { display: block; font-size: var(--fs-1); color: var(--fg-low); }
+.folder-card .fc-chips { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.folder-card .fc-foot { display: flex; align-items: center; gap: var(--space-2); margin-top: auto; padding-top: var(--space-3); border-top: var(--stroke-thin) solid var(--border-subtle); font-size: var(--fs-1); color: var(--fg-subtle); }
+
+/* ---- Meter (labelled completion bar; the bar itself is a DS .progress) ---- */
+.meter { display: flex; flex-direction: column; gap: var(--space-1); }
+.meter .meter-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+.meter .meter-label { font-size: var(--fs-1); color: var(--fg-low); }
+.meter .meter-count { font-size: var(--fs-1); font-weight: var(--weight-medium); color: var(--fg-high); font-variant-numeric: tabular-nums; }
+.meter .progress-fill.is-complete { background: var(--success-solid); }
+.meter .progress-fill.is-short { background: var(--warning-solid); }
+
+/* ---- Checklist (document completion per candidate) ---- */
+.checklist { display: flex; flex-direction: column; }
+.checklist .cl-item { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) 0; border-bottom: var(--stroke-thin) solid var(--border-subtle); font-size: var(--fs-2); }
+.checklist .cl-item:last-child { border-bottom: 0; }
+.checklist .cl-ic { width: 18px; height: 18px; flex: 0 0 auto; color: var(--fg-subtle); }
+.checklist .cl-name { color: var(--fg-high); flex: 1; min-width: 0; }
+.checklist .cl-meta { font-size: var(--fs-1); color: var(--fg-subtle); flex: 0 0 auto; }
+.checklist .cl-item.is-done .cl-ic { color: var(--success-text); }
+.checklist .cl-item.is-waiting .cl-ic { color: var(--info-solid); }
+.checklist .cl-item.is-missing .cl-ic { color: var(--warning-solid); }
+.checklist .cl-item.is-missing .cl-name { font-weight: var(--weight-medium); }
+
+/* ---- Document name cell (file icon + filename + sub-line) ---- */
+.doc-name { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+.doc-name .dn-ic { width: 32px; height: 32px; border-radius: var(--radius-2); background: var(--gray-3); color: var(--fg-low); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.doc-name .dn-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.doc-name .dn-file { font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--fg-high); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-name .dn-sub { font-size: var(--fs-1); color: var(--fg-subtle); }
+.doc-name button.dn-file { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; font-family: var(--font-base); }
+.doc-name button.dn-file:hover { text-decoration: underline; }
+
+/* ---- Table density: one row height needs cells that do not wrap.
+   The wrapper already scrolls horizontally, so give the wide document
+   table a floor width instead of letting columns crush. ---- */
+#docRows, #missRows { }
+.table-wrap .table.is-wide { min-width: 1160px; }
+.table .cell-person .cell-strong,
+.table .cell-person .cell-sub { white-space: nowrap; }
+.table .cell-job { display: block; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* One row height for the whole table (rules S4): cells never wrap. Anything
+   long ellipsises; the cell that genuinely needs to wrap opts in with .is-wrap. */
+.table tbody td { white-space: nowrap; }
+.table tbody td.is-wrap { white-space: normal; }
+.with-rail .table { min-width: 720px; }
+
+/* ---- Bulk action bar (appears when rows are selected) ---- */
+.bulk-bar { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; padding: var(--space-2) var(--space-3); margin-bottom: var(--space-3); border-radius: var(--radius-3); background: var(--accent-3); box-shadow: inset 0 0 0 1px var(--accent-7); }
+.bulk-bar .bb-count { font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--accent-12); margin-right: var(--space-2); }
+.bulk-bar .spacer { flex: 1; }
+
+/* ---- Category tab strip (horizontally scrollable .tab-nav) ---- */
+.tabs-scroll { overflow-x: auto; scrollbar-width: none; }
+.tabs-scroll::-webkit-scrollbar { display: none; }
+.tabs-scroll .tab-nav { min-width: max-content; }
+.tab-nav-item { background: none; border: 0; cursor: pointer; font-family: var(--font-base); white-space: nowrap; }
+.tab-nav-item .tn-count { margin-left: var(--space-1); font-size: var(--fs-1); color: var(--fg-subtle); font-variant-numeric: tabular-nums; }
+
+/* ---- Document preview pane (drawer) ---- */
+.preview-pane { border-radius: var(--radius-4); background: var(--gray-2); box-shadow: inset 0 0 0 1px var(--border-subtle); padding: var(--space-4); display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.preview-pane .pp-sheet { width: 100%; max-width: 260px; aspect-ratio: 1 / 1.414; border-radius: var(--radius-2); background: var(--color-panel-solid); box-shadow: var(--shadow-2); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+.preview-pane .pp-line { height: 6px; border-radius: var(--radius-full); background: var(--gray-4); }
+.preview-pane .pp-line.is-title { height: 10px; width: 60%; background: var(--gray-6); margin-bottom: var(--space-2); }
+.preview-pane .pp-line.is-short { width: 45%; }
+.preview-pane .pp-line.is-mid { width: 78%; }
+.preview-pane .pp-caption { font-size: var(--fs-1); color: var(--fg-subtle); }
+
+/* ---- Candidate identity block (folder + profile headers) ---- */
+.person-head { display: flex; align-items: flex-start; gap: var(--space-4); flex-wrap: wrap; }
+.person-head .ph-text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; flex: 1; }
+.person-head .ph-name { margin: 0; font-size: var(--fs-6); line-height: var(--lh-6); letter-spacing: var(--ls-6); font-weight: var(--weight-bold); color: var(--fg-high); }
+.person-head .ph-meta { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+.person-head .ph-meta-item { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--fs-2); color: var(--fg-low); white-space: nowrap; }
+.person-head .ph-meta-item svg { width: 14px; height: 14px; color: var(--fg-subtle); flex: 0 0 auto; }
+.person-head .ph-actions { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+
+/* ---- Drawer chrome ---- */
+.drawer-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); padding-bottom: var(--space-4); border-bottom: var(--stroke-thin) solid var(--border-subtle); margin-bottom: var(--space-4); }
+.drawer-title { font-size: var(--fs-5); line-height: var(--lh-5); font-weight: var(--weight-bold); color: var(--fg-high); }
+.drawer-sub { font-size: var(--fs-2); color: var(--fg-low); margin-top: 2px; }
+.section-title { font-size: var(--fs-1); font-weight: var(--weight-medium); letter-spacing: .04em; text-transform: uppercase; color: var(--fg-subtle); margin-bottom: var(--space-3); }
+
+/* ---- Audit timeline (who did what to a document) ---- */
+.timeline { display: flex; flex-direction: column; }
+.timeline .tl-item { display: grid; grid-template-columns: 24px 1fr; gap: var(--space-3); padding-bottom: var(--space-4); position: relative; }
+.timeline .tl-item:last-child { padding-bottom: 0; }
+.timeline .tl-item::before { content: ""; position: absolute; left: 11px; top: 22px; bottom: 0; width: 2px; background: var(--gray-4); }
+.timeline .tl-item:last-child::before { display: none; }
+.timeline .tl-dot { width: 24px; height: 24px; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center; background: var(--gray-3); color: var(--fg-subtle); z-index: 1; }
+.timeline .tl-dot svg { width: 14px; height: 14px; }
+.timeline .tl-item.is-done .tl-dot { background: var(--success-bg); color: var(--success-text); }
+.timeline .tl-item.is-info .tl-dot { background: var(--info-bg); color: var(--info-text); }
+.timeline .tl-item.is-warning .tl-dot { background: var(--warning-bg); color: var(--warning-text); }
+.timeline .tl-body { display: flex; flex-direction: column; gap: 2px; padding-top: 2px; min-width: 0; }
+.timeline .tl-title { font-size: var(--fs-2); color: var(--fg-high); }
+.timeline .tl-title strong { font-weight: var(--weight-medium); }
+.timeline .tl-meta { font-size: var(--fs-1); color: var(--fg-subtle); }
+
+/* ---- Dialog helpers ---- */
+.dialog.is-form { width: min(600px, 94vw); max-height: 92vh; }
+.dialog .form-scroll { overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-4); padding-right: var(--space-1); margin-right: calc(-1 * var(--space-1)); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+@media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+.dialog-step { display: flex; flex-direction: column; gap: var(--space-3); min-height: 0; }
+.check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); padding: var(--space-3); border-radius: var(--radius-3); background: var(--gray-2); box-shadow: inset 0 0 0 1px var(--border-subtle); }
+@media (max-width: 640px) { .check-grid { grid-template-columns: 1fr; } }
+
+/* ---- Upload zone ---- */
+.upload-zone { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-3); background: var(--gray-2); box-shadow: inset 0 0 0 1px var(--border-subtle); cursor: pointer; }
+.upload-zone:hover { background: var(--gray-3); }
+.upload-zone .uz-ic { width: 36px; height: 36px; border-radius: var(--radius-3); background: var(--accent-3); color: var(--accent-12); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.upload-zone .uz-text { display: flex; flex-direction: column; gap: 2px; }
+.upload-zone .uz-title { font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--fg-high); }
+.upload-zone .uz-sub { font-size: var(--fs-1); color: var(--fg-low); }
+
+/* ---- Success panel (post-submit confirmation) ---- */
+.success-panel { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--space-3); padding: var(--space-4) var(--space-2) 0; }
+.success-panel .sp-art { width: 64px; height: 64px; border-radius: var(--radius-full); background: var(--success-bg); color: var(--success-text); display: inline-flex; align-items: center; justify-content: center; }
+.success-panel .sp-title { font-size: var(--fs-5); line-height: var(--lh-5); font-weight: var(--weight-bold); color: var(--fg-high); }
+.success-panel .sp-sub { font-size: var(--fs-2); color: var(--fg-low); max-width: 400px; }
+.next-list { display: flex; flex-direction: column; gap: var(--space-2); width: 100%; text-align: left; padding: var(--space-3) var(--space-4); background: var(--gray-2); border-radius: var(--radius-4); }
+.next-list .nl-item { display: flex; align-items: flex-start; gap: var(--space-2); font-size: var(--fs-2); color: var(--fg-low); }
+.next-list .nl-item svg { width: 16px; height: 16px; color: var(--success-text); flex: 0 0 auto; margin-top: 2px; }
+
+/* ---- Toast host ---- */
+.toast-host { position: fixed; right: var(--space-5); bottom: var(--space-5); z-index: 1200; display: flex; flex-direction: column; gap: var(--space-2); }
+/* The entrance animates transform only. Animating opacity here is a trap:
+   if the animation never runs (a throttled or hidden tab) the toast is stuck
+   invisible, so the resting state must be the visible one. The ring is needed
+   because a white panel on the near-white page canvas has almost no edge. */
+.toast-host .toast { align-items: flex-start; animation: dc-rise .2s ease-out; box-shadow: var(--shadow-4), inset 0 0 0 1px var(--border-subtle); }
+.toast .toast-ic { width: 20px; height: 20px; color: var(--success-solid); flex: 0 0 auto; }
+@keyframes dc-rise { from { transform: translateY(8px); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .toast-host .toast { animation: none; } }
+
+/* ---- Layout helpers ---- */
+.with-rail { display: grid; grid-template-columns: 1fr 340px; gap: var(--space-5); align-items: start; }
+@media (max-width: 1180px) { .with-rail { grid-template-columns: 1fr; } }
+.stack-4 { display: flex; flex-direction: column; gap: var(--space-4); }
+.stack-3 { display: flex; flex-direction: column; gap: var(--space-3); }
+.stack-2 { display: flex; flex-direction: column; gap: var(--space-2); }
+.row-2 { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.row-3 { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.spacer { flex: 1; }
+.head-row { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.head-row .page-header { margin-bottom: 0; flex: 1 1 440px; min-width: 0; }
+.head-row .page-header p { max-width: 68ch; }
+.head-row > .row-2 { flex: 0 0 auto; padding-top: var(--space-1); }
+
+/* ---- Contrast floor for tertiary text (measured, not eyeballed) ----
+   --fg-subtle is gray-10 in both themes, and in both themes it misses WCAG AA
+   for the 12px labels built on it (tile hints, table sub-lines, candidate IDs,
+   timeline meta): 3.79:1 on the light canvas, 4.15:1 on the dark one. Nudged to
+   the AA floor in each theme. Both stay visibly dimmer than --fg-low, so the
+   text hierarchy is unchanged.
+
+   Both overrides must match the specificity tokens.css uses, or they silently
+   lose. Its light palette is declared `:root, :root[data-theme="light"]`, and
+   because specificity is counted per selector in a list, that second selector
+   scores (0,2,0) and beats a plain `:root`. Same trap as the dark block noted
+   in rules S14, one theme earlier. */
+:root,
+:root[data-theme="light"] { --fg-subtle: #757575; }   /* 4.54:1 on white */
+:root[data-theme="dark"]  { --fg-subtle: #8f8f8f; }   /* 5.44:1 on #111111 */
+/* ---- Dark-theme corrections (scoped at :root specificity per rules 14) ---- */
+:root[data-theme="dark"] .next-list,
+:root[data-theme="dark"] .upload-zone,
+:root[data-theme="dark"] .check-grid,
+:root[data-theme="dark"] .preview-pane { background: var(--gray-3); }
+:root[data-theme="dark"] .preview-pane .pp-sheet { background: var(--gray-5); }
+:root[data-theme="dark"] .preview-pane .pp-line { background: var(--gray-7); }
+:root[data-theme="dark"] .preview-pane .pp-line.is-title { background: var(--gray-8); }
+
+
+/* ============================================================
+   PORTAL - components added by the member/admin merge.
+   Documented in components-portal.md.
+   ============================================================ */
+
+/* ---- Request card (HR has asked the member for documents) ---- */
+.request-card { gap: var(--space-4); border-color: var(--accent-7); }
+.request-card .rq-head { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.request-card .rq-ic { width: 40px; height: 40px; border-radius: var(--radius-3); background: var(--accent-3); color: var(--accent-12); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.request-card .rq-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.request-card .rq-title { font-size: var(--fs-4); line-height: var(--lh-4); font-weight: var(--weight-bold); color: var(--fg-high); }
+.request-card .rq-sub { font-size: var(--fs-1); color: var(--fg-low); }
+.request-card .rq-list { display: flex; flex-direction: column; }
+.request-card .rq-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border-top: var(--stroke-thin) solid var(--border-subtle); }
+.request-card .rq-item-ic { width: 18px; height: 18px; flex: 0 0 auto; color: var(--info-solid); }
+.request-card .rq-item-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1; }
+.request-card .rq-item-name { font-size: var(--fs-2); font-weight: var(--weight-medium); color: var(--fg-high); }
+.request-card .rq-item-note { font-size: var(--fs-1); color: var(--fg-low); }
+
+/* ---- Nav count (outstanding items on a sidebar item) ---- */
+.nav-item .nav-count { margin-left: auto; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--radius-full); background: var(--danger-solid); color: #fff; font-size: 10px; font-weight: var(--weight-bold); display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.nav-item.is-active .nav-count { background: var(--accent-contrast); color: var(--accent-9); }
+.nav-item .nav-count[hidden] { display: none; }
+
+/* ---- Role switch in the header (prototype affordance) ---- */
+#roleSwitch { flex: 0 0 auto; }
+#roleSwitch .segmented-item { height: 26px; font-size: var(--fs-1); }
+.app-header.is-dark #roleSwitch { background: rgba(255,255,255,.10); }
+.app-header.is-dark #roleSwitch .segmented-item { color: rgba(255,255,255,.72); }
+.app-header.is-dark #roleSwitch .segmented-item.is-active { background: var(--accent-9); color: var(--accent-contrast); }
+
+/* ---- Role-scoped shell copy ---- */
+[data-role-only][hidden] { display: none !important; }
+
+/* Two sidebars share the shell's one grid area; [hidden] must beat the
+   .app-sidebar display so only the active role's nav renders. */
+.app-sidebar[hidden] { display: none !important; }

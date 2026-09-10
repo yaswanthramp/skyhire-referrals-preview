@@ -1,19 +1,40 @@
-# skyHire - Employee Referrals (preview)
+# skyHire portal (preview)
 
-Interactive wireframe for employee-facing referral management in skyHire.
+Interactive wireframe for skyHire, covering two roles in one page.
 
 **Live preview:** https://yaswanthramp.github.io/skyhire-referrals-preview/
 
-An employee signs in and sees only what an employee should see: every opening in their
-organisation, and the live status of everyone they have referred.
+Switch role in the header. Both roles read and write one document store, so nothing has to be
+kept in step between them.
 
-- **Overview** - referral KPIs, openings matched to your network, live status feed, how it works
-- **Open Roles** - filterable gallery of openings with description, eligibility and bonus; Refer on every card
-- **Role detail** - full JD, eligibility checklist, interview process, bonus split
-- **My Referrals** - six-stage pipeline per referee, status badges, detail drawer with the full timeline
-- **Rewards** - paid, pending and in-pipeline bonuses, plus the payout rules
+## Member
 
-Built with the Radix design system flavour of the Skypoint system (Radix Colors 12-step scales,
-Radix Themes geometry, Skypoint amber, Inter). Light and dark themes. Single page, no build step.
+The employee portal. Refer people, track them, and manage your own document file.
+
+- **Overview** referral KPIs, openings matched to your network, live status feed
+- **Open Roles** filterable openings with description, eligibility and bonus; Refer on every card
+- **Role detail** full description, eligibility checklist, interview process, bonus split
+- **My Referrals** six-stage pipeline per referee, with a detail drawer and full timeline
+- **My Documents** your own file only, plus whatever HR has asked you for, with upload
+- **Rewards** paid, pending and in-pipeline bonuses, and the payout rules
+
+## Admin (HR Operations)
+
+The Candidate Document Centre. Every candidate folder in one workspace.
+
+- **Folders** a folder per candidate, keyed on candidate ID, with completion meters
+- **All documents** every document across candidates, with bulk actions
+- **Missing** what has not arrived, due dates and reminders
+- **Hired** pre-onboarding verification and the handoff to the employee record
+- **Candidate folder** category tabs, checklist, audit trail, and a review drawer that verifies
+
+## The point of it
+
+Request documents from a candidate as the admin, switch to Member, and the request is waiting,
+naming who asked and why. Upload as the member, switch to Admin, and the file is already in the
+folder marked for review. One record, two surfaces, no second store.
+
+Built with the Radix flavour of the Skypoint design system (Radix Colors 12-step scales, Radix
+Themes geometry, Skypoint amber, Inter). Light and dark themes. Single page, no build step.
 
 All names, roles and figures are sample data.
